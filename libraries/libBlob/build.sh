@@ -5,7 +5,7 @@ printUsage ()
 
 projectType=libraries
 project=libBlob
-copyToSrc=1
+copyToSrc=0
 
 clean=
 debug=
