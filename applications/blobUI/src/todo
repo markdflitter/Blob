@@ -1,0 +1,51 @@
+features
+--------
+mono repo
+proper lib for libBlob
+sort out statics
+relative diff should be static
+test coverage
+
+Tests for eating, and hunting dead
+  test size
+  test eat action
+	test eat action impementation
+  test hungerweight
+  test selecting options when in same square for dead
+  tet select optins when in smell range for dead
+  trade off dead in same square and dead that I could hunt
+  trade off hunting dead vs hunting aolive
+  state for fighting and eating
+  test hunger reducing HP
+  test dead state sets stats to 0
+
+better fighing,turns, giving up, runnign away, means I can remove retaliation
+breeding
+
+intermittent issues
+-------------------
+still get non deadly embraces!
+sometimes display hangs
+
+back burner
+-----------
+maybe always add wander action to the list to be selected from?
+make blobs store why they died (killed, old age, starved)
+log window for status changes
+stop stats bar overwriting each other
+stop using strength as the determination for attacking, as that's not observable, use size
+normalise "" and <> for inludes
+point maths
+logging
+clang-format and clang-tidy
+command line parameters for modes in main app
+polymorphic print
+blobs -> pointers
+compile individual tests
+random food
+
+tidy up
+-------
+normalise stats so they are all on the same scale
+profile execution & optimise
+

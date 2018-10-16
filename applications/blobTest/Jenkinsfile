@@ -1,0 +1,24 @@
+pipeline {
+	agent any
+	options {skipDefaultCheckout()}
+		stages {
+			stage ('Checkout') {
+				steps {
+					sh "rm -rf $WORKSPACE/src/libraries/libBlob"
+					sh "rm -rf $WORKSPACE/src/applications/blobTest"
+					sh "git clone https://github.com/markdflitter/libBlob $WORKSPACE/src/libraries/libBlob"
+					sh "git clone https://github.com/markdflitter/blobTest $WORKSPACE/src/applications/blobTest"
+				}
+			}
+
+			stage ('Build') {
+				steps {
+					echo 'Building...'
+					sh "cd $WORKSPACE/src/applications/blobTest; cmake ."
+					sh "cd $WORKSPACE/src/applications/blobTest; make"
+					echo 'Done.'
+				}
+			}
+
+		}
+}

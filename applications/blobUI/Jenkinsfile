@@ -1,0 +1,23 @@
+pipeline {
+	agent any
+	options {skipDefaultCheckout()}
+		stages {
+			stage ('Checkout') {
+				steps {
+					sh "rm -rf $WORKSPACE/src/libraries/libBlob"
+					sh "rm -rf $WORKSPACE/src/applications/blobUI"
+					sh "git clone https://github.com/markdflitter/libBlob $WORKSPACE/src/libraries/libBlob"
+					sh "git clone https://github.com/markdflitter/blobUI $WORKSPACE/src/applications/blobUI"
+				}
+			}
+
+			stage ('Build') {
+				steps {
+					sh "cd $WORKSPACE/src/applications/blobUI; cmake -DCMAKE_PREFIX_PATH=/opt/QtSDK/5.11.2/gcc_64 ."
+					sh "cd $WORKSPACE/src/applications/blobUI; make"
+					echo 'Done.'
+				}
+			}
+
+		}
+}
