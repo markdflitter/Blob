@@ -1,9 +1,11 @@
 features
 --------
-mono repo
-proper lib for libBlob
-sort out statics
-relative diff should be static
+proper lib for libBlob and createBlob
+	pimpl or proper interface - probably pimpl initially
+
+tidy up params in blobUI build script - help doesn't match code
+	need to recopy it, as it's out of date compared to the lib copy
+
 test coverage
 
 Tests for eating, and hunting dead

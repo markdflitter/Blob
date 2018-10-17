@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 2.6)
-project (libBlob)
+project (Blob)
 
 INCLUDE_DIRECTORIES (./include)
 
@@ -9,8 +9,15 @@ find_package (GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 enable_testing()
 
-add_executable (test_libBlob "")
-target_sources (test_libBlob 
+add_library (Blob "")
+set_target_properties (Blob PROPERTIES OUTPUT_NAME "Blob$<$<CONFIG:Debug>:d>")
+target_sources (Blob
+	PRIVATE
+		"src/blob.cpp"
+		"src/createBlob.cpp")
+
+add_executable (run-tests EXCLUDE_FROM_ALL "")
+target_sources (run-tests 
 	PRIVATE
 		"tests/test_libBlob.m.cpp"
 		"tests/00_00_template.t.cpp"
@@ -49,6 +56,6 @@ target_sources (test_libBlob
 		"tests/12_00_blob_tired.t.cpp"
 )
 
-target_link_libraries (test_libBlob ${GTEST_LIBRARIES} pthread)
+target_link_libraries (run-tests ${GTEST_LIBRARIES} pthread Blob)
 
-gtest_discover_tests (test_libBlob)
+gtest_discover_tests (run-tests)

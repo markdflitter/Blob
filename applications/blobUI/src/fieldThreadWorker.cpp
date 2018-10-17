@@ -8,8 +8,8 @@ void createHunters (std::vector<Blob>& blobs, size_t count)
 {
 	std::mt19937 generator (std::random_device {}());
 	std::normal_distribution<> wander_angle_generator (40, 4);
-	std::uniform_real_distribution<> x_ordinate_generator (-1500.0, 1500.0);
-	std::uniform_real_distribution<> y_ordinate_generator (-750.0, 750.0);
+	std::uniform_real_distribution<> x_ordinate_generator (-Blob::WORLD_SIZE ().x (), Blob::WORLD_SIZE ().x ());
+	std::uniform_real_distribution<> y_ordinate_generator (-Blob::WORLD_SIZE ().y (), Blob::WORLD_SIZE ().y ());
 	std::normal_distribution<> speed_generator (1.5, 0.3);
 	std::normal_distribution<> running_speed_multiplier_generator (1.5, 0.5);
 	std::normal_distribution<> smell_generator (100, 40);
@@ -45,8 +45,8 @@ void createSheep (std::vector<Blob>& blobs, size_t count)
 {
 	std::mt19937 generator (std::random_device {}());
 	std::normal_distribution<> wander_angle_generator (40, 4);
-	std::uniform_real_distribution<> x_ordinate_generator (-1500.0, 1500.0);
-	std::uniform_real_distribution<> y_ordinate_generator (-750.0, 750.0);
+	std::uniform_real_distribution<> x_ordinate_generator (-Blob::WORLD_SIZE ().x (), Blob::WORLD_SIZE ().x ());
+	std::uniform_real_distribution<> y_ordinate_generator (-Blob::WORLD_SIZE ().y (), Blob::WORLD_SIZE ().y ());
 	std::normal_distribution<> speed_generator (1.8, 0.4);
 	std::normal_distribution<> running_speed_multiplier_generator (1.6, 0.5);
 	std::normal_distribution<> smell_generator (120, 50);
@@ -82,8 +82,8 @@ void createRandomBlobs (std::vector<Blob>& blobs, size_t count)
 {
 	std::mt19937 generator (std::random_device {}());
 	std::normal_distribution<> wander_angle_generator (40, 4);
-	std::uniform_real_distribution<> x_ordinate_generator (-1500.0, 1500.0);
-	std::uniform_real_distribution<> y_ordinate_generator (-750.0, 750.0);
+	std::uniform_real_distribution<> x_ordinate_generator (-Blob::WORLD_SIZE ().x (), Blob::WORLD_SIZE ().x ());
+	std::uniform_real_distribution<> y_ordinate_generator (-Blob::WORLD_SIZE ().y (), Blob::WORLD_SIZE ().y ());
 	std::normal_distribution<> speed_generator (1.2, 0.5);
 	std::normal_distribution<> running_speed_multiplier_generator (1.5, 0.5);
 	std::normal_distribution<> smell_generator (120, 70);
@@ -119,8 +119,8 @@ Blob createTheHandOfGod ()
 {
 	std::mt19937 generator (std::random_device {}());
 	std::normal_distribution<> wander_angle_generator (40, 8);
-	std::uniform_real_distribution<> x_ordinate_generator (-1500.0, 1500.0);
-	std::uniform_real_distribution<> y_ordinate_generator (-750.0, 750.0);
+	std::uniform_real_distribution<> x_ordinate_generator (-Blob::WORLD_SIZE ().x (), Blob::WORLD_SIZE ().x ());
+	std::uniform_real_distribution<> y_ordinate_generator (-Blob::WORLD_SIZE ().y (), Blob::WORLD_SIZE ().y ());
 	
 	Blob result = CreateBlob ().name ("TheHandOfGod")
 				  .moveDirectionFn (RandomMove (std::random_device {} (), wander_angle_generator (generator)))

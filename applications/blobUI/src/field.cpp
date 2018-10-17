@@ -119,7 +119,7 @@ void Field::paintEvent(QPaintEvent *)
 
 double Field::calculateScale () const
 {
-	Pt<double> srcSize (3000.0, 1500.0);
+	Pt<double> srcSize (2 * Blob::WORLD_SIZE ().x (), 2 * Blob::WORLD_SIZE (). y ());
 	double xScale = size ().width () / srcSize.x ();
 	double yScale = size ().height () / srcSize.y ();
 	double s = std::min (std::min (xScale, yScale), 1000.0);

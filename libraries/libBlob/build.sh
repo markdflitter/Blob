@@ -1,6 +1,6 @@
 printUsage ()
 {
-  echo "./build.sh [-c | --clean] [-d | --debug] [-D | --deep-clean] [-t | --test] [-T | --test-only] [-F | -test-filter <test to run>] [-h | --help]"
+  echo "./build.sh [--clean] [-d | --debug] [--deep-clean] [-t | --test] [-T | --test-only] [-F | -test-filter <test to run>] [-h | --help]"
 }
 
 projectType=libraries
@@ -9,7 +9,7 @@ copyToSrc=0
 
 clean=
 debug=
-deepClean=
+deepClean=0
 test=
 testOnly=
 testFilter=
@@ -41,8 +41,11 @@ if [ "$debug" = "1" ]; then
 	targetFolder=debug
 fi
 
-if [ "deepClean" = "1" ]; then
-  rm -rf ../../../bld/$projectType/$project/$targetFolder
+echo "$deepClean"
+
+if [ "$deepClean" = "1" ]; then
+        echo "removing -rf ../../../bld/$projectType/$project/$targetFolder"
+	rm -rf ../../../bld/$projectType/$project/$targetFolder
 fi
 
 if [ ! -d ../../../bld ]; then
@@ -61,7 +64,6 @@ if [ ! -d ../../../bld/$projectType/$project/$targetFolder ]; then
   mkdir ../../../bld/$projectType/$project/$targetFolder
 fi
 
-
 pushd ../../../bld/$projectType/$project/$targetFolder
 
 if [ "$testOnly" != "1" ]; then
@@ -76,6 +78,9 @@ if [ "$testOnly" != "1" ]; then
 	fi
 
 	make
+	if [ "$test" = "1" ]; then
+		make run-tests
+	fi
 fi
 
 if [ "$test" = "1" ] || [ "$testOnly" = "1" ]; then
