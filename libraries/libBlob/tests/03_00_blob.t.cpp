@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <blob.h>
+#include <blobImpl.h>
 
 TEST (test_03_00_blob_t, create_default_blob)
 {
@@ -51,7 +52,7 @@ TEST (test_03_00_blob_t, setHP)
 	Blob b = CreateBlob ().HP (500U).lifespan (100U).maxHunger (100U);
 
 	EXPECT_EQ (b.HP (), 250U);
-	b.setHP (80U);	
+	b.getImpl ()->setHP (80U);	
 	EXPECT_EQ (b.HP (), 80U);
 }
 
@@ -60,7 +61,7 @@ TEST (test_03_00_blob_t, setHP_and_die)
 	Blob b = CreateBlob ().HP (500U).lifespan (100U).maxHunger (100U);
 
 	EXPECT_EQ (b.HP (), 250U);
-	b.setHP (0U);	
+	b.getImpl ()->setHP (0U);	
 	EXPECT_EQ (b.HP (), 0U);
 	EXPECT_TRUE (b.isDead ());
 }

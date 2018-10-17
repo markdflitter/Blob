@@ -1,164 +1,141 @@
 #include "blob.h"
+#include "blobImpl.h"
 
 Blob::Blob (const CreateBlob& params) :
-	  _name (params._name)
-	, _speed (params._speed)
-	, _runningSpeed (params._runningSpeed)
-	, _baseSmell (params._smell)
-	, _baseHP (params._HP)
-	, _endurance (params._endurance)
-	, _aggression (params._aggression)
-	, _lifespan (params._lifespan)
-	, _baseDamage (params._damage)
-	, _maxHunger (params._maxHunger)
-	, _size (params._size)
-	, _moveDirectionFn (params._moveDirectionFn)
-	, _aggressionFn (params._aggressionFn)
-	,  _state ("newborn")
- 	, _fatigue (0)
-	, _tired (false)
-	, _age (0)
-	, _hunger (0.0)
-	, _dead (false)
+	_impl (std::make_shared <BlobImpl> (params))
 {
-	_points.push_back (params._position);
-	setHP (maxHP ());
+}
+
+Blob::Blob (const Blob& other) :
+	_impl (std::make_shared <BlobImpl> (*(other._impl)))
+{
+}
+
+std::shared_ptr <BlobImpl> Blob::getImpl ()
+{
+	return _impl;
 }
 
 std::string Blob::name () const
 {
-	return _name;
+	return _impl->_name;
 }
 
 double Blob::x () const
 {
-	return _points.back ().x ();
+	return _impl->_points.back ().x ();
 }
 
 double Blob::y () const
 {
-	return _points.back ().y ();
+	return _impl->_points.back ().y ();
 }
 
 double Blob::baseSpeed () const
 {
-	return _speed;
+	return _impl->_speed;
 }
 
 double Blob::speed () const
 {
-	return (baseHP () == 0) ? 0U : _speed * (double (_HP)) / baseHP ();
+	return (baseHP () == 0) ? 0U : _impl->_speed * (double (_impl->_HP)) / baseHP ();
 }
 
 double Blob::runningSpeed () const
 {
-	return (baseHP () == 0) ? 0U :_runningSpeed * (double (_HP)) / baseHP ();
+	return (baseHP () == 0) ? 0U :_impl->_runningSpeed * (double (_impl->_HP)) / baseHP ();
 }
 
 double Blob::smell () const
 {
-	return _baseSmell * ageRatio ();
+	return _impl->_baseSmell * _impl->ageRatio ();
 }
 
 unsigned int Blob::baseHP () const
 {
-	return _baseHP;
+	return _impl->_baseHP;
 }
 
 unsigned int Blob::HP () const
 {
-	return _HP;
+	return _impl->_HP;
 }
 
 unsigned int Blob::maxHP () const
 {
-	return ((unsigned int) ((_baseHP * hungerRatio () * ageRatio ()) + 0.5));
+	return _impl->maxHP ();
 }
 
 unsigned int Blob::baseDamage () const
 {
-	return _baseDamage;
+	return _impl->_baseDamage;
 }
 
 unsigned int Blob::damage () const
 {
-	return (baseHP () == 0) ? 0U : ((unsigned int) ((_baseDamage * (double (_HP)) / baseHP ()) + 0.5));
+	return (baseHP () == 0) ? 0U : ((unsigned int) ((_impl->_baseDamage * (double (_impl->_HP)) / baseHP ()) + 0.5));
 }
 
 unsigned int Blob::endurance () const
 {
-	return _endurance;
+	return _impl->_endurance;
 }
 
 double Blob::aggression () const
 {
-	return isDead () ? _aggression : ((2.0 - hungerRatio ()) * _aggression);
+	return isDead () ? _impl->_aggression : ((2.0 - _impl->hungerRatio ()) * _impl->_aggression);
 }
 
 unsigned int Blob::maxHunger () const
 {
-	return _maxHunger;
+	return _impl->_maxHunger;
 }
 
 double Blob::hunger () const
 {
-	return _hunger;
+	return _impl->_hunger;
 }
 
 unsigned int Blob::size () const
 {
-	return ((unsigned int) ((((double) _size) * ageRatio ()) + 0.5)) ;
+	return ((unsigned int) ((((double) _impl->_size) * _impl->ageRatio ()) + 0.5)) ;
 }
 
 unsigned int Blob::lifespan () const
 {
-	return _lifespan;
+	return _impl->_lifespan;
 }
 
 unsigned int Blob::age () const
 {
-	return _age;
-}
-
-double Blob::ageRatio () const
-{
-	double a = -2.0 / (((double) _lifespan) * _lifespan);
-	double b = 2.0 / ((double) _lifespan);
-	double c = 0.5;
-
-	return a * ((double) _age) * _age + b * ((double) _age) + c;
-}
-
-double Blob::hungerRatio () const
-{
-	return (_maxHunger - _hunger) / _maxHunger;
+	return _impl->_age;
 }
 
 std::string Blob::state () const
 {
-	return _state;
+	return _impl->_state;
 }
 
 double Blob::fatigue () const
 {
-	return _fatigue;
+	return _impl->_fatigue;
 }
 
 bool Blob::isTired () const
 {
-	return _tired;
+	return _impl->_tired;
 }
  
 
 bool Blob::isDead () const
 {
-	return _dead;
+	return _impl->_dead;
 }
 
 
 const std::vector<Pt<double>>& Blob::history () const
 {
-	return _points;
+	return _impl->_points;
 }
 
 double Blob::distance (const Blob& other) const
@@ -193,80 +170,55 @@ double Blob::angle (const Blob& other) const
 	return atan2 (dy, -dx) + M_PI/2;
 }
 
-void Blob::kill ()
-{
-	_dead = true;
-	_state = "dead";
-	_speed = 0.0;
-	_runningSpeed = 0.0;
-	_baseSmell = 0.0;
-	_baseHP = 0U;
-	_HP = 0U;
-	_baseDamage = 0U;
-	_endurance = 0U;
-	_aggression = 0.0;
-	_maxHunger = 0U;
-	_hunger = 0.0;
-}
-
-void Blob::setHP (unsigned int newHP)
-{
-	_HP = newHP;
-	if (_HP == 0U)
-	{
-		kill ();
-	}
-}
-
 void Blob::limitHPtoMax (unsigned int previousDamage)
 {
 	// this is so that if we increase max (due to aging), then our current HP go up by the same amount
-	setHP (maxHP () - previousDamage);
+	_impl->setHP (_impl->maxHP () - previousDamage);
 }
 
 void Blob::growOlder ()
 {
 	if (!isDead ())
 	{
-		unsigned int previousDamage = maxHP () - HP ();
-		if (++_age >= lifespan ())
+		unsigned int previousDamage = _impl->maxHP () - HP ();
+		if (++_impl->_age >= lifespan ())
 		{
-			kill ();
+			_impl->kill ();
 		}	
 		limitHPtoMax (previousDamage);
-		if (_HP < maxHP ())
+		if (_impl->_HP < _impl->maxHP ())
 		{
-			setHP (_HP + 1U);
+			_impl->setHP (_impl->_HP + 1U);
 		}
 	}
 }
 
 void Blob::getHungrier (double amount)
 {
-	unsigned int previousDamage = maxHP () - HP ();
-	_hunger += amount;
-	if (_hunger > (double) _maxHunger)
+	unsigned int previousDamage = _impl->maxHP () - HP ();
+	_impl->_hunger += amount;
+	if (_impl->_hunger > (double) _impl->_maxHunger)
 	{
-		_hunger = (double) _maxHunger;
+		_impl->_hunger = (double) _impl->_maxHunger;
 	}
 	limitHPtoMax (previousDamage);
 }
 
 void Blob::takeDamage (unsigned int damage)
 {
-	if (_HP >= damage)
+	if (_impl->_HP >= damage)
 	{
-		setHP (_HP - damage);
+		_impl->setHP (_impl->_HP - damage);
 	}
 	else
 	{
-		setHP (0);
+		_impl->setHP (0);
 	}
 }
 
 void Blob::inflictDamage (Target* target, const std::string& state)
 {
-	_state = _state;
+	_impl->_state = state;
 	growOlder ();
 	target->takeDamage (damage ());
 	getHungrier (damage ());
@@ -281,45 +233,45 @@ void Blob::move (double speed, double angleInRadians, const std::string& newStat
 {
 	growOlder ();
 	
-	_previousAngleInRadians = angleInRadians;
+	_impl->_previousAngleInRadians = angleInRadians;
 
-	double denormalisedMoveDirection = _previousAngleInRadians - M_PI / 2;
+	double denormalisedMoveDirection = _impl->_previousAngleInRadians - M_PI / 2;
 	double newX = x () + speed * cos (denormalisedMoveDirection);
 	double newY = y () - speed * sin (denormalisedMoveDirection);
 
 	newX = std::max (-WORLD_SIZE ().x (), std::min (WORLD_SIZE ().x (), newX));
 	newY = std::max (-WORLD_SIZE ().y (), std::min (WORLD_SIZE ().y (), newY));
 	
-	_points.push_back (Pt<double> (newX, newY));
-	while (_points.size () > 200)
-		_points.erase (_points.begin (), _points.begin () + 1);
+	_impl->_points.push_back (Pt<double> (newX, newY));
+	while (_impl->_points.size () > 200)
+		_impl->_points.erase (_impl->_points.begin (), _impl->_points.begin () + 1);
 
-	_state = newState;
+	_impl->_state = newState;
 
-	if (speed > _speed)
+	if (speed > _impl->_speed)
 	{
-		if (_fatigue < _endurance) _fatigue++;
+		if (_impl->_fatigue < _impl->_endurance) _impl->_fatigue++;
 	}
 	else
 	{
-		if (_fatigue > 0) _fatigue--;
+		if (_impl->_fatigue > 0) _impl->_fatigue--;
 	}
-	if (_fatigue == 0) _tired = false;
-	if (_fatigue == _endurance) _tired = true; 
+	if (_impl->_fatigue == 0) _impl->_tired = false;
+	if (_impl->_fatigue == _impl->_endurance) _impl->_tired = true; 
 
 	getHungrier (speed);
 }
        
 void Blob::eat (Food* food, const std::string& state)
 {
-	_state = state;
-	_hunger -= food->takeABite (_hunger);
+	_impl->_state = state;
+	_impl->_hunger -= food->takeABite (_impl->_hunger);
 }
  
 unsigned int Blob::takeABite (unsigned int biteSize)
 {
-	unsigned int biteTaken = std::min (biteSize, _size);
-	_size -= biteTaken;
+	unsigned int biteTaken = std::min (biteSize, _impl->_size);
+	_impl->_size -= biteTaken;
 	return biteTaken;
 }
  
@@ -330,23 +282,23 @@ std::shared_ptr <Action> Blob::createActionDead ()
  
 std::shared_ptr <Action> Blob::createActionWander ()
 {
-	double angle = _moveDirectionFn (_previousAngleInRadians);
-	return std::shared_ptr<Action> (new Movement (this, "wandering", _speed, angle));
+	double angle = _impl->_moveDirectionFn (_impl->_previousAngleInRadians);
+	return std::shared_ptr<Action> (new Movement (this, "wandering", _impl->_speed, angle));
 }
         
 std::shared_ptr <Action> Blob::createActionFlee (const Blob& target)
 {
 	return std::shared_ptr <Action> (new Movement (this,
 			 "running from " + target.name () + (!isTired () ? " (fast)" : ""),
-			isTired () ? _speed : _runningSpeed,
-			_moveDirectionFn ((0.9 * _previousAngleInRadians + 0.1 * (angle (target) + M_PI)))));
+			isTired () ? _impl->_speed : _impl->_runningSpeed,
+			_impl->_moveDirectionFn ((0.9 * _impl->_previousAngleInRadians + 0.1 * (angle (target) + M_PI)))));
 }
        
 std::shared_ptr <Action> Blob::createActionHunt (const Blob& target)
 {
 	return std::shared_ptr <Action> (new Movement (this,
 		 "hunting " + target.name () + (!isTired () ? " (fast)" : ""),
-		std::min (isTired() ? _speed : _runningSpeed, distance (target)),
+		std::min (isTired() ? _impl->_speed : _impl->_runningSpeed, distance (target)),
 		angle (target)));
 }  
 
@@ -386,7 +338,7 @@ double Blob::inflictDamageWeight (const Blob& b) const
 
 double Blob::hungerWeight (const Blob& b) const
 {
-	return std::min (1.0, ((double) b.size ()) / 2000.0) * (1.0 - hungerRatio ());
+	return std::min (1.0, ((double) b.size ()) / 2000.0) * (1.0 - _impl->hungerRatio ());
 }
 
 double Blob::avoidDamageWeight (const Blob& b) const
@@ -430,22 +382,22 @@ std::vector<Option> Blob::findOptions (std::vector<Blob>& others) const
 		{
 			if (b.isDead ())
 			{
- 				if (b.size () > 0U && hungerRatio () < 0.30)
+ 				if (b.size () > 0U && _impl->hungerRatio () < 0.30)
 				{
 					if (isInSameSquare (b))
 					{
-						options.push_back (Option (::eat, 2 * hungerWeight (b) + _aggressionFn (_aggression), &b));
+						options.push_back (Option (::eat, 2 * hungerWeight (b) + _impl->_aggressionFn (_impl->_aggression), &b));
 					}
 					else if (canSmell (b))
 					{
-						options.push_back (Option (attack, (2 * hungerWeight (b) * distanceWeight (b)) + _aggressionFn (_aggression), &b));
+						options.push_back (Option (attack, (2 * hungerWeight (b) * distanceWeight (b)) + _impl->_aggressionFn (_impl->_aggression), &b));
 					}
 				}
 			}
 			else if (isInSameSquare (b) || canSmell (b))
 			{
-				options.push_back (Option (attack, attackWeight (b) + _aggressionFn (_aggression), &b));
-				options.push_back (Option {flee, fleeWeight (b) - _aggressionFn (_aggression), &b});
+				options.push_back (Option (attack, attackWeight (b) + _impl->_aggressionFn (_impl->_aggression), &b));
+				options.push_back (Option {flee, fleeWeight (b) - _impl->_aggressionFn (_impl->_aggression), &b});
 			}
 		}
 	}
@@ -493,7 +445,7 @@ std::shared_ptr <Action> Blob::chooseNextAction (std::vector<Blob>& blobs)
 		switch (selectedOption.action ())
 		{
 			case attack:
- 					return createActionAttack (*(selectedOption.target ()));
+ 				return createActionAttack (*(selectedOption.target ()));
 			case flee:
 				return createActionFlee (*(selectedOption.target ()));
 			case wander:

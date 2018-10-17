@@ -18,11 +18,16 @@
 #include "option.h"
 #include <assert.h>
 #include "createBlob.h"
+
+class BlobImpl;
 	
 class Blob : public Moveable, public Target, public Eater, public Food
 {
 public:
 	Blob (const CreateBlob& params);
+	Blob (const Blob& other);
+
+	std::shared_ptr <BlobImpl> getImpl ();
 	
 	std::string name () const;
 	double x () const; 
@@ -43,8 +48,6 @@ public:
  	unsigned int size () const;
 	unsigned int lifespan () const;
 	unsigned int age () const;
-	double ageRatio () const;
-	double hungerRatio () const;
 	std::string state () const;
 
 	double fatigue () const;
@@ -61,9 +64,6 @@ public:
 
 	double angle (const Blob& other) const;
 
-        void kill ();
-
-	void setHP (unsigned int newHP);
 	void limitHPtoMax (unsigned int previousDamage);
 	
 	void growOlder ();
@@ -104,34 +104,7 @@ public:
 	
 	static Pt<double> WORLD_SIZE ();
 private:
-	std::vector<Pt<double>> _points;
-
-	std::string _name;
-	double _speed;
-        double _runningSpeed;
-	double _baseSmell;
-	unsigned int _baseHP;
-	unsigned int _HP;
-	unsigned int _endurance;
-	double _aggression;
-	unsigned int _lifespan;
-	unsigned int _baseDamage;
-	unsigned int _maxHunger;
-	double _hunger;
-	unsigned int _size;
-
-	double _previousAngleInRadians = 0;
-
-	std::string _state;
-
-	unsigned int _fatigue;
-	bool _tired;
-
-	unsigned int _age;	
-	bool _dead;
-
-	std::function<double(double)> _moveDirectionFn;
-	std::function<double(double)> _aggressionFn;
+	std::shared_ptr <BlobImpl> _impl;
 };
 
 #endif

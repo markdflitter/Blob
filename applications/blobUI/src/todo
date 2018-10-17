@@ -1,10 +1,29 @@
 features
 --------
-proper lib for libBlob and createBlob
-	pimpl or proper interface - probably pimpl initially
+so: steps are:
+  3) move private methods out of blob into the pimpl and update the blob and the tests
+    	the tests would probably need to be renamed if they are pimpl tests
+
+high level plan for pimpl
+-------------------------
+blob adds implementation for the public functions which accesses the pimpl data and private methods
+public functions are tested at the blob level
+
+I can either get the pimpl from the blob, or create it directly.
+findOptions (eg) needs to convert the blob to the pimpl
+
+testing on a pimpl: I would need to be able to create a pimpl from a createBlob
+and those tests would be done on the pimpl
+
+
+
+
 
 tidy up params in blobUI build script - help doesn't match code
 	need to recopy it, as it's out of date compared to the lib copy
+
+tidy up blob header #includes
+separate includes into public and private?
 
 test coverage
 

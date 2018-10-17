@@ -27,6 +27,7 @@ public:
 	CreateBlob aggressionFn (std::function<double(double)> aggressionFn);
 private:
 	friend class Blob;
+	friend class BlobImpl;
 	
 	std::string _name;
 	Pt<double> _position;

@@ -13,6 +13,7 @@ add_library (Blob "")
 set_target_properties (Blob PROPERTIES OUTPUT_NAME "Blob$<$<CONFIG:Debug>:d>")
 target_sources (Blob
 	PRIVATE
+		"src/blobImpl.cpp"
 		"src/blob.cpp"
 		"src/createBlob.cpp")
 

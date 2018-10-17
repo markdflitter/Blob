@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <blob.h>
+#include <blobImpl.h>
 // this tests the mapping from possibility to real action
 
 namespace
@@ -68,7 +69,7 @@ TEST (test_11_06_blob_chooseNextAction_t, dead_blobs_do_nothing)
 	std::shared_ptr <Movement> m1 (std::dynamic_pointer_cast <Movement> (a1));
 	EXPECT_EQ (*m1, Movement (&blobs[0], "wandering", 1.0, 0.0));
 
-	blobs[0].kill ();
+	blobs[0].getImpl ()->kill ();
 	
 	std::shared_ptr<Action> a2 = blobs[0].chooseNextAction (blobs);
 	ASSERT_TRUE (std::dynamic_pointer_cast <Movement> (a2));
@@ -80,7 +81,7 @@ TEST (test_11_06_blob_chooseNextAction_t, dead_blobs_do_not_age)
 {
 	std::vector<Blob> blobs {CreateBlob ().lifespan (2U)};
 	EXPECT_EQ (blobs[0].age (), 0U);
-	blobs[0].kill ();	
+	blobs[0].getImpl ()->kill ();	
 	std::shared_ptr <Action> a = blobs[0].chooseNextAction (blobs);
 	a->apply ();
 	EXPECT_EQ (blobs[0].age (), 0U);
