@@ -26,7 +26,11 @@ public:
 	std::shared_ptr <BlobImpl> getImpl ();
 	
 	std::string name () const;
-	double baseSpeed () const;
+	double speed () const;
+	
+	unsigned int age () const;
+	double ageRatio () const;
+	double hungerRatio () const;
 
 	double smell () const;
 	unsigned int baseHP () const;
@@ -40,7 +44,6 @@ public:
  	double hunger () const;
  	unsigned int size () const;
 	unsigned int lifespan () const;
-	unsigned int age () const;
 	std::string state () const;
 
 	double fatigue () const;

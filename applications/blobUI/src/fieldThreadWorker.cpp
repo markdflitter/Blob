@@ -1,8 +1,9 @@
 #include "fieldThreadWorker.h"
 #include <chrono>
-#include <blob.h>
 #include <vector>
 #include <random>
+#include "blob.h"
+#include "rnd.h"
 
 void createHunters (std::vector<Blob>& blobs, size_t count)
 {
