@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
-#include <blob.h>
+#include "blob.h"
+#include "rnd.h"
 
 namespace
 {

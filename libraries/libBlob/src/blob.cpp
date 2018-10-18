@@ -1,5 +1,12 @@
 #include "blob.h"
+
 #include "blobImpl.h"
+#include "rnd.h"
+
+#include <algorithm>
+#include <sstream>
+#include <math.h>
+#include <assert.h>
 
 Blob::Blob (const CreateBlob& params) :
 	_impl (std::make_shared <BlobImpl> (params))
@@ -21,29 +28,9 @@ std::string Blob::name () const
 	return _impl->_name;
 }
 
-double Blob::x () const
-{
-	return _impl->_points.back ().x ();
-}
-
-double Blob::y () const
-{
-	return _impl->_points.back ().y ();
-}
-
 double Blob::baseSpeed () const
 {
 	return _impl->_speed;
-}
-
-double Blob::speed () const
-{
-	return (baseHP () == 0) ? 0U : _impl->_speed * (double (_impl->_HP)) / baseHP ();
-}
-
-double Blob::runningSpeed () const
-{
-	return (baseHP () == 0) ? 0U :_impl->_runningSpeed * (double (_impl->_HP)) / baseHP ();
 }
 
 double Blob::smell () const
@@ -140,8 +127,11 @@ const std::vector<Pt<double>>& Blob::history () const
 
 double Blob::distance (const Blob& other) const
 {
-	double dx = other.x () - x();
-	double dy = other.y () - y();
+	Pt<double> p1 = other._impl->position ();
+	Pt<double> p2 = _impl->position ();
+
+	double dx = p1.x () - p2.x ();
+	double dy = p1.y () - p2.y ();
 	double d = sqrt ((dx * dx) + (dy * dy));
 
 	return d; 
@@ -164,8 +154,11 @@ bool Blob::canSmell (const Blob& other) const
 
 double Blob::angle (const Blob& other) const
 {
-	double dx = x () - other.x ();
-	double dy = y () - other.y ();
+	Pt<double> p1 = _impl->position ();
+	Pt<double> p2 = other._impl->position ();
+
+	double dx = p1.x () - p2.x ();
+	double dy = p1.y () - p2.y ();
 
 	return atan2 (dy, -dx) + M_PI/2;
 }
@@ -235,9 +228,11 @@ void Blob::move (double speed, double angleInRadians, const std::string& newStat
 	
 	_impl->_previousAngleInRadians = angleInRadians;
 
+	Pt<double> p = _impl->position ();
+
 	double denormalisedMoveDirection = _impl->_previousAngleInRadians - M_PI / 2;
-	double newX = x () + speed * cos (denormalisedMoveDirection);
-	double newY = y () - speed * sin (denormalisedMoveDirection);
+	double newX = p.x () + speed * cos (denormalisedMoveDirection);
+	double newY = p.y () - speed * sin (denormalisedMoveDirection);
 
 	newX = std::max (-WORLD_SIZE ().x (), std::min (WORLD_SIZE ().x (), newX));
 	newY = std::max (-WORLD_SIZE ().y (), std::min (WORLD_SIZE ().y (), newY));
@@ -463,7 +458,9 @@ Pt<double> Blob::WORLD_SIZE ()
 }
 
 std::ostream& operator<< (std::ostream& s, const Blob& b)
-{
-	s << b.x () << "," << b.y ();
+{	
+	Pt<double> p = b._impl->position ();
+
+	s << p.x () << "," << p.y ();
 	return s; 
 }

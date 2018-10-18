@@ -161,32 +161,32 @@ TEST (test_08_00_blob_age_t, damaged_blobs_stay_damaged_with_age)
 TEST (test_08_00_blob_age_t, blobs_get_slower_with_less_HP)
 {
 	Blob b1 = CreateBlob ().lifespan (5U).speed (100.0).HP (100U).maxHunger (100U);
-	EXPECT_DOUBLE_EQ (b1.speed (), 50.0);
+	EXPECT_DOUBLE_EQ (b1.getImpl ()->speed (), 50.0);
 
 	b1.getImpl ()->setHP (40);
 
 	EXPECT_DOUBLE_EQ (b1.baseSpeed (), 100.0);
-	EXPECT_DOUBLE_EQ (b1.speed (), 40.0);
+	EXPECT_DOUBLE_EQ (b1.getImpl ()->speed (), 40.0);
 }
 
 TEST (test_08_00_blob_age_t, blobs_change_speed_with_age)
 {
 	Blob b1 = CreateBlob ().speed (100.0).HP (100U).lifespan (10U).maxHunger (100U);
-	EXPECT_DOUBLE_EQ (b1.speed (), 50.0);
+	EXPECT_DOUBLE_EQ (b1.getImpl ()->speed (), 50.0);
 
-	double previous = b1.speed ();
+	double previous = b1.getImpl ()->speed ();
 	for (size_t i = 0; i < 10; i++)
 	{
 		b1.growOlder ();
 		if (i < 5)
 		{
-			EXPECT_GT (b1.speed (), previous);
+			EXPECT_GT (b1.getImpl ()->speed (), previous);
 		}
 		else
 		{
-			EXPECT_LT (b1.speed (), previous);
+			EXPECT_LT (b1.getImpl ()->speed (), previous);
 		}
-		previous = b1.speed ();
+		previous = b1.getImpl ()->speed ();
 		EXPECT_DOUBLE_EQ (b1.baseSpeed (), (i == 9) ? 0.0 : 100.0);
 	}
 
@@ -195,31 +195,31 @@ TEST (test_08_00_blob_age_t, blobs_change_speed_with_age)
 TEST (test_08_00_blob_age_t, blobs_run_slower_with_less_HP)
 {
 	Blob b1 = CreateBlob ().lifespan (5U).maxHunger (100U).runningSpeed (100.0).HP (100U);
-	EXPECT_DOUBLE_EQ (b1.runningSpeed (), 50.0);
+	EXPECT_DOUBLE_EQ (b1.getImpl ()->runningSpeed (), 50.0);
 
 	b1.getImpl ()->setHP (40);
 
-	EXPECT_DOUBLE_EQ (b1.runningSpeed (), 40.0);
+	EXPECT_DOUBLE_EQ (b1.getImpl ()->runningSpeed (), 40.0);
 }
 
 TEST (test_08_00_blob_age_t, blobs_change_runningSpeed_with_age)
 {
 	Blob b1 = CreateBlob ().runningSpeed (100.0).HP (100U).lifespan (10U).maxHunger (100U);
-	EXPECT_DOUBLE_EQ (b1.runningSpeed (), 50.0);
+	EXPECT_DOUBLE_EQ (b1.getImpl ()->runningSpeed (), 50.0);
 
-	double previous = b1.runningSpeed ();
+	double previous = b1.getImpl ()->runningSpeed ();
 	for (size_t i = 0; i < 10; i++)
 	{
 		b1.growOlder ();
 		if (i < 5)
 		{
-			EXPECT_GT (b1.runningSpeed (), previous);
+			EXPECT_GT (b1.getImpl ()->runningSpeed (), previous);
 		}
 		else
 		{
-			EXPECT_LT (b1.runningSpeed (), previous);
+			EXPECT_LT (b1.getImpl ()->runningSpeed (), previous);
 		}
-		previous = b1.runningSpeed ();
+		previous = b1.getImpl ()->runningSpeed ();
 	}
 }
 

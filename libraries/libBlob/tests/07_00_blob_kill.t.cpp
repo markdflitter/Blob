@@ -13,8 +13,8 @@ TEST(test_07_00_blob_kill_t, is_dead_after_being_killed)
 	EXPECT_TRUE (b1.isDead ());
 	EXPECT_EQ (b1.state (), "dead");
 	EXPECT_DOUBLE_EQ (b1.smell (), 0.0);
-	EXPECT_DOUBLE_EQ (b1.speed (), 0.0);
-	EXPECT_DOUBLE_EQ (b1.runningSpeed (), 0.0);
+	EXPECT_DOUBLE_EQ (b1.getImpl ()->speed (), 0.0);
+	EXPECT_DOUBLE_EQ (b1.getImpl ()->runningSpeed (), 0.0);
 	EXPECT_DOUBLE_EQ (b1.aggression (), 0.0);
 	EXPECT_EQ (b1.maxHP (), 0U);
 	EXPECT_EQ (b1.baseHP (), 0U);

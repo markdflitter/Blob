@@ -11,10 +11,16 @@ class BlobImpl
 {
 public:
 	BlobImpl (const CreateBlob& params);
+	
+	double speed () const;
+	double runningSpeed () const;
 
+	Pt<double> position () const;
+ 
 	double ageRatio () const;
 	double hungerRatio () const;
 	unsigned int maxHP () const;
+	
 	void setHP (unsigned int newHP);
 	void kill ();
 	

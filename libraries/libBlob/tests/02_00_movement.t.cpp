@@ -147,8 +147,9 @@ TEST (test_02_00_movement_t, applies_to_blob)
 	std::shared_ptr<Action> m (new Movement (&b1, "because", 5.0, 0.0));
         m->apply ();
 	
-	EXPECT_DOUBLE_EQ (b1.x (), 10.1);
-	EXPECT_DOUBLE_EQ (b1.y (), 25.2);
+	Pt<double> p = b1.history ().back ();
+	EXPECT_DOUBLE_EQ (p.x (), 10.1);
+	EXPECT_DOUBLE_EQ (p.y (), 25.2);
 	EXPECT_EQ (b1.state (), "because");
 }
 
