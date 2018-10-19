@@ -12,18 +12,14 @@ class BlobImpl
 public:
 	BlobImpl (const CreateBlob& params);
 	
-	Pt<double> position () const;
- 
-	double propertyScalingFactorDueToAge () const;
-	double propertyScalingFactorDueToHunger () const;
-	unsigned int maxHP () const;
-	
-	void setHP (unsigned int newHP);
-	void kill ();
-	
-	std::vector<Pt<double>> _points;
-
 	std::string _name;
+	
+	unsigned int _lifespan;
+	unsigned int _currentAge;	
+	
+	unsigned int _starvationLevel;
+	double _currentHunger;
+	
 	double _wanderingSpeed;
         double _runningSpeed;
 	double _baseSmell;
@@ -31,12 +27,11 @@ public:
 	unsigned int _HP;
 	unsigned int _endurance;
 	double _aggression;
-	unsigned int _lifespan;
 	unsigned int _baseDamage;
-	unsigned int _maxHunger;
-	double _hunger;
 	unsigned int _size;
 
+	std::vector<Pt<double>> _points;
+	
 	double _previousAngleInRadians = 0;
 
 	std::string _state;
@@ -44,12 +39,18 @@ public:
 	unsigned int _fatigue;
 	bool _tired;
 
-	unsigned int _currentAge;	
 	bool _dead;
 
 	std::function<double(double)> _moveDirectionFn;
 	std::function<double(double)> _aggressionFn;
-};
+
+	double propertyScalingFactorDueToAge () const;
+	double propertyScalingFactorDueToHunger () const;
+	unsigned int maxHP () const;
+	
+	void setHP (unsigned int newHP);
+	void kill ();
+	};
 
 #endif
 

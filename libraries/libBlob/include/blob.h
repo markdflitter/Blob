@@ -36,9 +36,8 @@ public:
  	unsigned int lifespan () const;
 	unsigned int currentAge () const;
 
-	unsigned int maxHunger () const;
- 	double hunger () const;
-	double hungerRatio () const;
+	unsigned int starvationLevel () const;
+ 	double currentHunger () const;
 
 	unsigned int baseHP () const;
 	unsigned int MaxHP () const;

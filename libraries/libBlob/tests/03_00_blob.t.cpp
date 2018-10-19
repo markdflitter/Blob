@@ -102,8 +102,8 @@ TEST (test_03_00_blob_t, damage)
 TEST (test_03_00_blob_t, hunger)
 {
 	Blob b = CreateBlob ().HP (100U).maxHunger (100U).lifespan (100U).maxHunger (100U);
-	EXPECT_EQ (b.maxHunger (), 100U);
-	EXPECT_EQ (b.hunger (), 0U);
+	EXPECT_EQ (b.starvationLevel (), 100U);
+	EXPECT_EQ (b.currentHunger (), 0U);
 }
 
 TEST (test_03_00_blob_t, state)

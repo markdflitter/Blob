@@ -241,7 +241,7 @@ void Field::drawStatsBars (QPainter& painter,
 	drawStatsBar (painter, QPointF (targetPt.x (), targetPt.y () + 0 * (STATS_BAR_HEIGHT + STATS_BAR_SPACE)),
 		blob.currentAge (), blob.lifespan (), fadeAlpha, true, "age");
 	drawStatsBar (painter, QPointF (targetPt.x (), targetPt.y () + 1 * (STATS_BAR_HEIGHT + STATS_BAR_SPACE)),
-		blob.hunger (), blob.maxHunger (), fadeAlpha, true, "eat");
+		blob.currentHunger (), blob.starvationLevel (), fadeAlpha, true, "eat");
 		drawStatsBar (painter, QPointF (targetPt.x (), targetPt.y () + 2 * (STATS_BAR_HEIGHT + STATS_BAR_SPACE)),
 		blob.HP (), blob.baseHP (), fadeAlpha, false, "HP");
 	drawStatsBar (painter, QPointF (targetPt.x (), targetPt.y () + 3 * (STATS_BAR_HEIGHT + STATS_BAR_SPACE)),
