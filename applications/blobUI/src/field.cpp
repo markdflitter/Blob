@@ -59,8 +59,8 @@ void Field::redrawPixmap ()
 		if (!it->isDead ()) numLiveBlobs++;
 	}
 
-	double labelFadeAlpha = fadeAlpha (numLiveBlobs, 30.0, 20.0);
-	double statsBarsFadeAlpha = fadeAlpha (numLiveBlobs, 30.0, 20.0);
+	double labelFadeAlpha = featureFadeAlpha (numLiveBlobs, 30.0, 20.0);
+	double statsBarsFadeAlpha = featureFadeAlpha (numLiveBlobs, 30.0, 20.0);
 	bool labelDeadBlobs = numBlobs <= 10;		
 
 	for (auto it = blobs->begin (); it != blobs->end (); it++)
@@ -140,22 +140,20 @@ void Field::drawSmellRange (QPainter& painter,
 
 	const Pt<double>& centre = blob.history ().back ();
 
-	QColor fadedColour = colour;
-	double timeLeft = (((double) blob.lifespan ()) - blob.age ()) / blob.lifespan () * blob.hungerRatio ();
-	fadedColour.setAlphaF (blob.isDead () ? 0.4 : (0.6 * timeLeft) + 0.4);
-
 	if (!blob.isDead ())
 	{
-		QPen pen (fadedColour);
+		QPen pen (colour);
 		pen.setWidthF (1.0 / scale);	
 		painter.setPen (pen);
 		painter.drawEllipse (QPointF (centre.x (), centre.y ()),(double) blob.smell (),(double) blob.smell ());
 	}
 
-	fadedColour.setAlphaF (blob.isDead () ? 0.4 : (0.4 * timeLeft) + 0.4);
-	painter.setBrush (QBrush (fadedColour));
-	fadedColour.setAlphaF (0.0);
-	painter.setPen (QPen (fadedColour));
+	painter.setBrush (QBrush (colour));
+	
+	QColor noColour (Qt::black);
+	noColour.setAlphaF (0.0);
+	painter.setPen (QPen (noColour));
+
 	if (blob.size () > 0U)
 	{
 		painter.drawEllipse (QPointF (centre.x (), centre.y ()), (blob.size () / 60.0), (blob.size () / 60.0));
@@ -203,14 +201,7 @@ void Field::drawPath (QPainter& painter,
 		if (blob.isDead ()) break;
 		
 		const Pt <double>& p = *it;
-		if (count == 0)
-		{
-			fadedColour.setAlphaF (0.5 * blob.ageRatio ());
-		}
-		else
-		{
-			fadedColour.setAlphaF (limit (1.0 - ((double) count / points.size ()), 0.0, 1.0) * blob.ageRatio ());
-		}
+		fadedColour.setAlphaF (limit (1.0 - ((double) count / points.size ()), 0.0, 1.0));
 		QPen pen (fadedColour);
 		pen.setWidthF (1.0 / scale);
 		painter.setPen (pen);
@@ -248,7 +239,7 @@ void Field::drawStatsBars (QPainter& painter,
 				  colour);
 
 	drawStatsBar (painter, QPointF (targetPt.x (), targetPt.y () + 0 * (STATS_BAR_HEIGHT + STATS_BAR_SPACE)),
-		blob.age (), blob.lifespan (), fadeAlpha, true, "age");
+		blob.currentAge (), blob.lifespan (), fadeAlpha, true, "age");
 	drawStatsBar (painter, QPointF (targetPt.x (), targetPt.y () + 1 * (STATS_BAR_HEIGHT + STATS_BAR_SPACE)),
 		blob.hunger (), blob.maxHunger (), fadeAlpha, true, "eat");
 		drawStatsBar (painter, QPointF (targetPt.x (), targetPt.y () + 2 * (STATS_BAR_HEIGHT + STATS_BAR_SPACE)),
@@ -339,7 +330,7 @@ double Field::limit (double v, double min, double max)
 	return std::min (std::max (v, min), max);
 }
 
-double Field::fadeAlpha (double current, double min, double max) 
+double Field::featureFadeAlpha (double current, double min, double max) 
 {
 	return limit ((current - min) / (max - min), 0.0, 1.0);
 }
@@ -348,7 +339,7 @@ QColor Field::blobColour (const Blob& blob)
 {
 	double a = blob.aggression () + 1.0;
 	unsigned int red = (unsigned) limit (a * 255.0, 0.0, 255.0);
-	unsigned int blue = (unsigned) limit (blob.speed () * 100.0, 0.0, 255.0);
+	unsigned int blue = (unsigned) limit (blob.maxWanderingSpeed () * 100.0, 0.0, 255.0);
 	unsigned int green = 0U;
 	
 	if ((red < 128U) && (blue < 128U))
@@ -360,6 +351,10 @@ QColor Field::blobColour (const Blob& blob)
 		green = 128U;
 	}
 	//std::cout << red << ", " << green << ", " << blue << std::endl;
-	return QColor (red, green, blue);
+	QColor result (red, green, blue);
+
+	result.setAlphaF (blob.fade ());
+
+	return result;
 }
 

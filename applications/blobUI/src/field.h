@@ -73,7 +73,7 @@ class Field : public QWidget, public SetBlobs, public Redraw
 				    const std::string& label);
 
 		static double limit (double v, double min = 0.0, double max = 1.0);
-		static double fadeAlpha (double current, double min, double max); 
+		static double featureFadeAlpha (double current, double min, double max); 
 		static QColor blobColour (const Blob& blob);
 };
 
