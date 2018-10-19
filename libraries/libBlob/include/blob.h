@@ -39,9 +39,10 @@ public:
 	unsigned int starvationLevel () const;
  	double currentHunger () const;
 
-	unsigned int baseHP () const;
-	unsigned int MaxHP () const;
-	unsigned int HP () const;
+	unsigned int greatestMaxHP () const;
+	unsigned int currentMaxHP () const;
+	unsigned int currentHP () const;
+	
 
 	double maxWanderingSpeed () const;
 	double currentWanderingSpeed () const;

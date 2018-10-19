@@ -95,66 +95,66 @@ TEST (test_08_00_blob_age_t, ageRatio_halfway)
 	EXPECT_DOUBLE_EQ (b1.getImpl ()->propertyScalingFactorDueToAge (), 1.0);
 }
 	
-TEST (test_08_00_blob_age_t, blobs_baseHP_do_not_reduce_with_age)
+TEST (test_08_00_blob_age_t, blobs_greatestMaxHP_do_not_reduce_with_age)
 {
 	Blob b1 = CreateBlob ().lifespan (5U).HP (100U).starvationLevel (100U);
-	EXPECT_DOUBLE_EQ (b1.baseHP (), 100.0);
+	EXPECT_DOUBLE_EQ (b1.greatestMaxHP (), 100.0);
 
 	b1.growOlder ();
-	EXPECT_DOUBLE_EQ (b1.baseHP (), 100.0);
+	EXPECT_DOUBLE_EQ (b1.greatestMaxHP (), 100.0);
 }
 
 TEST (test_08_00_blob_age_t, blobs_maxHP_change_with_age)
 {
 	Blob b1 = CreateBlob ().lifespan (10U).HP (100U).starvationLevel (100U);
-	EXPECT_EQ (b1.getImpl ()->maxHP (), 50U);
+	EXPECT_EQ (b1.currentMaxHP (), 50U);
 
-	unsigned int previous = b1.HP ();
+	unsigned int previous = b1.currentHP ();
 	for (size_t i = 0; i < 10; i++)
 	{
 		b1.growOlder ();
 		if (i < 5)
 		{
-			EXPECT_GT (b1.getImpl ()->maxHP (), previous);
+			EXPECT_GT (b1.currentMaxHP (), previous);
 		}
 		else
 		{
-			EXPECT_LT (b1.getImpl ()->maxHP (), previous);
+			EXPECT_LT (b1.currentMaxHP (), previous);
 		}
-		previous = b1.getImpl ()->maxHP ();
+		previous = b1.currentMaxHP ();
 	}
 }
 
 TEST (test_08_00_blob_age_t, blobs_HP_change_with_age)
 {
 	Blob b1 = CreateBlob ().lifespan (10U).HP (100U).starvationLevel (100U);
-	EXPECT_EQ (b1.HP (), 50U);
+	EXPECT_EQ (b1.currentHP (), 50U);
 
-	unsigned int previous = b1.HP ();
+	unsigned int previous = b1.currentHP ();
 	for (size_t i = 0; i < 10; i++)
 	{
 		b1.growOlder ();
 		if (i < 5)
 		{
-			EXPECT_GT (b1.HP (), previous);
+			EXPECT_GT (b1.currentHP (), previous);
 		}
 		else
 		{
-			EXPECT_LT (b1.HP (), previous);
+			EXPECT_LT (b1.currentHP (), previous);
 		}
-		previous = b1.HP ();
+		previous = b1.currentHP ();
 	}
 }
 
 TEST (test_08_00_blob_age_t, damaged_blobs_stay_damaged_with_age)
 {
 	Blob b1 = CreateBlob ().lifespan (10U).HP (100U).starvationLevel (100U);
-	EXPECT_EQ (b1.HP (), 50U);
+	EXPECT_EQ (b1.currentHP (), 50U);
 	b1.getImpl ()->setHP (40U);
 
 	b1.growOlder ();
 
-	EXPECT_EQ (b1.HP (), 59U);
+	EXPECT_EQ (b1.currentHP (), 59U);
 }
 
 

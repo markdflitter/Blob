@@ -38,11 +38,12 @@ private:
 	
 	unsigned int _starvationLevel;
 
+	unsigned int _HP;
+	
 	Pt<double> _position;
 	double _speed;
         double _runningSpeed;
 	double _smell;
-	unsigned int _HP;
 	unsigned int _endurance;
 	double _aggression;
 	unsigned int _damage;

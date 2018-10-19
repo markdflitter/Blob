@@ -20,11 +20,12 @@ public:
 	unsigned int _starvationLevel;
 	double _currentHunger;
 	
+	unsigned int _greatestMaxHP;
+	unsigned int _currentHP;
+	
 	double _wanderingSpeed;
         double _runningSpeed;
 	double _baseSmell;
-	unsigned int _baseHP;
-	unsigned int _HP;
 	unsigned int _endurance;
 	double _aggression;
 	unsigned int _baseDamage;
@@ -46,7 +47,7 @@ public:
 
 	double propertyScalingFactorDueToAge () const;
 	double propertyScalingFactorDueToHunger () const;
-	unsigned int maxHP () const;
+	unsigned int currentMaxHP () const;
 	
 	void setHP (unsigned int newHP);
 	void kill ();

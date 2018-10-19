@@ -7,7 +7,7 @@ BlobImpl::BlobImpl (const CreateBlob& params) :
 	, _wanderingSpeed (params._speed)
 	, _runningSpeed (params._runningSpeed)
 	, _baseSmell (params._smell)
-	, _baseHP (params._HP)
+	, _greatestMaxHP (params._HP)
 	, _endurance (params._endurance)
 	, _aggression (params._aggression)
 	, _baseDamage (params._damage)
@@ -22,7 +22,7 @@ BlobImpl::BlobImpl (const CreateBlob& params) :
 	, _dead (false)
 {
 	_points.push_back (params._position);
-	setHP (maxHP ());
+	setHP (currentMaxHP ());
 }
 
 double BlobImpl::propertyScalingFactorDueToAge () const
@@ -39,16 +39,16 @@ double BlobImpl::propertyScalingFactorDueToHunger () const
 	return (_starvationLevel - _currentHunger) / _starvationLevel;
 }
 
-unsigned int BlobImpl::maxHP () const
+unsigned int BlobImpl::currentMaxHP () const
 {
 	double scalingFactor = propertyScalingFactorDueToAge () * propertyScalingFactorDueToHunger ();
-	return ((unsigned int) ((_baseHP * scalingFactor) + 0.5));
+	return ((unsigned int) ((_greatestMaxHP * scalingFactor) + 0.5));
 }
 
 void BlobImpl::setHP (unsigned int newHP)
 {
-	_HP = newHP;
-	if (_HP == 0U)
+	_currentHP = newHP;
+	if (_currentHP == 0U)
 	{
 		kill ();
 	}
@@ -61,8 +61,8 @@ void BlobImpl::kill ()
 	_wanderingSpeed = 0.0;
 	_runningSpeed = 0.0;
 	_baseSmell = 0.0;
-	_baseHP = 0U;
-	_HP = 0U;
+	_greatestMaxHP = 0U;
+	_currentHP = 0U;
 	_baseDamage = 0U;
 	_endurance = 0U;
 	_aggression = 0.0;
