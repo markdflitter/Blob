@@ -122,8 +122,8 @@ TEST (test_02_01_fight_t, apply_target)
 
 TEST (test_02_01_fight_t, applies_to_blobs)
 {
-	Blob target = CreateBlob ().HP (20U).damage (4U).lifespan (1000U).maxHunger (1000U);
-	Blob attacker = CreateBlob ().HP (40U).damage (6U).lifespan (1000U).maxHunger (1000U);
+	Blob target = CreateBlob ().HP (20U).damage (4U).lifespan (1000U).starvationLevel (1000U);
+	Blob attacker = CreateBlob ().HP (40U).damage (6U).lifespan (1000U).starvationLevel (1000U);
 	EXPECT_EQ (target.HP (), 10U);
 	EXPECT_EQ (attacker.HP (), 20U);
 

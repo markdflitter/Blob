@@ -16,7 +16,7 @@ void createHunters (std::vector<Blob>& blobs, size_t count)
 	std::normal_distribution<> smell_generator (100, 40);
 	std::normal_distribution<> aggression_generator (1.0, 0.25);
 	std::normal_distribution<> lifespan_generator (10000, 8000);
-	std::normal_distribution<> maxHunger_generator (2000, 500);
+	std::normal_distribution<> starvationLevel_generator (2000, 500);
 	std::normal_distribution<> other_generator (100, 20);
 	
 	for (size_t n = 0; n < count; ++n)
@@ -35,8 +35,8 @@ void createHunters (std::vector<Blob>& blobs, size_t count)
 				 .endurance (std::max (0.0, other_generator (generator)))
 				 .aggression (std::min (1.0, std::max (-1.0, aggression_generator (generator))))
 				 .lifespan (std::max (100.0, lifespan_generator (generator)))
-				 .maxHunger (maxHunger_generator (generator))
-				 .size (maxHunger_generator (generator))
+				 .starvationLevel (starvationLevel_generator (generator))
+				 .size (starvationLevel_generator (generator))
 				 .aggressionFn (RandomAggression (std::random_device {} ()))
 				 .damage (damage));
 	}
@@ -53,7 +53,7 @@ void createSheep (std::vector<Blob>& blobs, size_t count)
 	std::normal_distribution<> smell_generator (120, 50);
 	std::normal_distribution<> aggression_generator (-1.0, 0.25);
 	std::normal_distribution<> lifespan_generator (10000, 8000);
-	std::normal_distribution<> maxHunger_generator (2500, 500);
+	std::normal_distribution<> starvationLevel_generator (2500, 500);
 	std::normal_distribution<> other_generator (30, 20);
 	
 	for (size_t n = 0; n < count; ++n)
@@ -72,8 +72,8 @@ void createSheep (std::vector<Blob>& blobs, size_t count)
 				 .endurance (std::max (0.0, other_generator (generator)))
 				 .aggression (std::min (1.0, std::max (-1.0, aggression_generator (generator))))
 				 .lifespan (std::max (100.0, lifespan_generator (generator)))
-				 .maxHunger (maxHunger_generator (generator))
-				 .size (maxHunger_generator (generator))
+				 .starvationLevel (starvationLevel_generator (generator))
+				 .size (starvationLevel_generator (generator))
 				 .aggressionFn (RandomAggression (std::random_device {} ()))
 				 .damage (damage));
 	}
@@ -90,7 +90,7 @@ void createRandomBlobs (std::vector<Blob>& blobs, size_t count)
 	std::normal_distribution<> smell_generator (120, 70);
 	std::normal_distribution<> aggression_generator (0.0, 0.5);
 	std::normal_distribution<> lifespan_generator (10000, 8000);
-	std::normal_distribution<> maxHunger_generator (2000, 500);
+	std::normal_distribution<> starvationLevel_generator (2000, 500);
 	std::normal_distribution<> other_generator (50, 40);
 	
 	for (size_t n = 0; n < count; ++n)
@@ -109,8 +109,8 @@ void createRandomBlobs (std::vector<Blob>& blobs, size_t count)
 				 .endurance (std::max (0.0, other_generator (generator)))
 				 .aggression (std::min (1.0, std::max (-1.0, aggression_generator (generator))))
 				 .lifespan (std::max (100.0, lifespan_generator (generator)))
-				 .maxHunger (maxHunger_generator (generator))
-				 .size (maxHunger_generator (generator))
+				 .starvationLevel (starvationLevel_generator (generator))
+				 .size (starvationLevel_generator (generator))
 				 .aggressionFn (RandomAggression (std::random_device {} ()))
 				 .damage (damage));
 	}
@@ -133,7 +133,7 @@ Blob createTheHandOfGod ()
 				  .endurance (100)
 				  .aggression (1)
 				  .lifespan (50000)
-				  .maxHunger (4000U)
+				  .starvationLevel (4000U)
 				  .size (10000U)
 				  .aggressionFn ([](double a) {return a;})
 				  .damage (200);

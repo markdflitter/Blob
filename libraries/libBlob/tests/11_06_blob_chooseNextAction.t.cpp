@@ -5,8 +5,8 @@
 
 namespace
 {
-	auto weaker = CreateBlob ().HP (50U).smell (100.0).position (make_pt (5.0, 5.0)).lifespan (1000u).maxHunger (100U);
-	auto stronger = CreateBlob ().HP (200U).smell (100.0).damage (100U).position (make_pt (10.0, 10.0)).lifespan (1000U).maxHunger (100U);
+	auto weaker = CreateBlob ().HP (50U).smell (100.0).position (make_pt (5.0, 5.0)).lifespan (1000u).starvationLevel (100U);
+	auto stronger = CreateBlob ().HP (200U).smell (100.0).damage (100U).position (make_pt (10.0, 10.0)).lifespan (1000U).starvationLevel (100U);
 }
 
 TEST (test_11_06_blob_chooseNextAction_t, fight)
@@ -62,7 +62,7 @@ TEST (test_11_06_blob_chooseNextAction_t, wander)
 
 TEST (test_11_06_blob_chooseNextAction_t, dead_blobs_do_nothing)
 {
-	std::vector<Blob> blobs {CreateBlob ().speed (1.0).HP (100U).lifespan (100U).maxHunger (100U)};
+	std::vector<Blob> blobs {CreateBlob ().speed (1.0).HP (100U).lifespan (100U).starvationLevel (100U)};
 
 	std::shared_ptr<Action> a1 = blobs[0].chooseNextAction (blobs);
 	ASSERT_TRUE (std::dynamic_pointer_cast <Movement> (a1));

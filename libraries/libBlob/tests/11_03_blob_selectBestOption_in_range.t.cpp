@@ -3,10 +3,10 @@
 
 namespace
 {
-	auto weakest = CreateBlob ().HP (25U).smell (200.0).position (make_pt (5.0, 5.0)).lifespan (1000U).maxHunger (100U);
-	auto weaker = CreateBlob ().HP (50U).smell (200.0).position (make_pt (5.0, 5.0)).lifespan (1000U).maxHunger (100U);
-	auto stronger = CreateBlob ().HP (200U).smell (200.0).damage (100U).position (make_pt (10.0, 10.0)).lifespan (1000U).maxHunger (100U);
-	auto strongest = CreateBlob ().HP (200U).smell (200.0).damage (200U).position (make_pt (10.0, 10.0)).lifespan (1000U).maxHunger (100U);
+	auto weakest = CreateBlob ().HP (25U).smell (200.0).position (make_pt (5.0, 5.0)).lifespan (1000U).starvationLevel (100U);
+	auto weaker = CreateBlob ().HP (50U).smell (200.0).position (make_pt (5.0, 5.0)).lifespan (1000U).starvationLevel (100U);
+	auto stronger = CreateBlob ().HP (200U).smell (200.0).damage (100U).position (make_pt (10.0, 10.0)).lifespan (1000U).starvationLevel (100U);
+	auto strongest = CreateBlob ().HP (200U).smell (200.0).damage (200U).position (make_pt (10.0, 10.0)).lifespan (1000U).starvationLevel (100U);
 }
 
 TEST (test_11_03_blob_selectBestOption_in_range_t, weaker_flees_stronger)

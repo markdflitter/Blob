@@ -81,7 +81,7 @@ TEST (test_09_02_blob_wander_t, seeded_normal_distribution_in_radians_progresses
 
 TEST (test_09_02_blob_wander_t, uses_fixed_angle)
 {
-	Blob b = CreateBlob ().lifespan (100U).HP (100U).maxHunger (100U).position (make_pt (10.1, 20.2)).speed (5.0).moveDirectionFn (fixed_angle);
+	Blob b = CreateBlob ().lifespan (100U).HP (100U).starvationLevel (100U).position (make_pt (10.1, 20.2)).speed (5.0).moveDirectionFn (fixed_angle);
 	for (size_t step = 1; step <= 8; step++)
 	{
 		std::shared_ptr<Action> a = b.createActionWander ();
@@ -97,7 +97,7 @@ TEST (test_09_02_blob_wander_t, uses_fixed_angle)
 TEST (test_09_02_blob_wander_t, wanders_in_a_circle)
 {
 	Blob b = CreateBlob ().position (make_pt (10.1, 20.2))
-			      .lifespan (100U).HP (100U).maxHunger (100U)
+			      .lifespan (100U).HP (100U).starvationLevel (100U)
 			      .speed (5.0).endurance (10U).moveDirectionFn (fixed_angle);
 
 	std::shared_ptr<Action> a = b.createActionWander ();

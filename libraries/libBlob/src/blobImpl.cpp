@@ -2,15 +2,15 @@
 
 BlobImpl::BlobImpl (const CreateBlob& params) :
 	  _name (params._name)
+	, _lifespan (params._lifespan)
+	, _starvationLevel (params._starvationLevel)
 	, _wanderingSpeed (params._speed)
 	, _runningSpeed (params._runningSpeed)
 	, _baseSmell (params._smell)
 	, _baseHP (params._HP)
 	, _endurance (params._endurance)
 	, _aggression (params._aggression)
-	, _lifespan (params._lifespan)
 	, _baseDamage (params._damage)
-	, _starvationLevel (params._maxHunger)
 	, _size (params._size)
 	, _moveDirectionFn (params._moveDirectionFn)
 	, _aggressionFn (params._aggressionFn)
