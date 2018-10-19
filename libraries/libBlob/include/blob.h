@@ -27,9 +27,6 @@ public:
 	//static properties
 	static Pt<double> WORLD_SIZE ();
 	
-	// operator<<
-	friend std::ostream& operator<<(std::ostream& s, const Blob& b);
-
 	// impl loophole
 	std::shared_ptr <BlobImpl> getImpl ();
 	
