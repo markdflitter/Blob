@@ -165,7 +165,7 @@ TEST (test_08_00_blob_age_t, blobs_get_slower_with_less_HP)
 
 	b1.getImpl ()->setHP (40);
 
-	EXPECT_DOUBLE_EQ (b1.maxWanderingSpeed (), 100.0);
+	EXPECT_DOUBLE_EQ (b1.greatestWanderingSpeed (), 100.0);
 	EXPECT_DOUBLE_EQ (b1.currentWanderingSpeed (), 40.0);
 }
 
@@ -187,7 +187,7 @@ TEST (test_08_00_blob_age_t, blobs_change_speed_with_age)
 			EXPECT_LT (b1.currentWanderingSpeed (), previous);
 		}
 		previous = b1.currentWanderingSpeed ();
-		EXPECT_DOUBLE_EQ (b1.maxWanderingSpeed (), (i == 9) ? 0.0 : 100.0);
+		EXPECT_DOUBLE_EQ (b1.greatestWanderingSpeed (), (i == 9) ? 0.0 : 100.0);
 	}
 }
 

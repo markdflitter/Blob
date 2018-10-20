@@ -13,7 +13,7 @@ public:
 	BlobImpl (const CreateBlob& params);
 	
 	std::string _name;
-	
+
 	unsigned int _lifespan;
 	unsigned int _currentAge;	
 	
@@ -23,8 +23,9 @@ public:
 	unsigned int _greatestMaxHP;
 	unsigned int _currentHP;
 	
-	double _wanderingSpeed;
-        double _runningSpeed;
+	double _greatestWanderingSpeed;
+        double _greatestRunningSpeed;
+	
 	double _baseSmell;
 	unsigned int _endurance;
 	double _aggression;

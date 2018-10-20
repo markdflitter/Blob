@@ -62,7 +62,7 @@ TEST (test_11_06_blob_chooseNextAction_t, wander)
 
 TEST (test_11_06_blob_chooseNextAction_t, dead_blobs_do_nothing)
 {
-	std::vector<Blob> blobs {CreateBlob ().speed (1.0).HP (100U).lifespan (100U).starvationLevel (100U)};
+	std::vector<Blob> blobs {CreateBlob ().speed (2.0).HP (100U).lifespan (100U).starvationLevel (100U)};
 
 	std::shared_ptr<Action> a1 = blobs[0].chooseNextAction (blobs);
 	ASSERT_TRUE (std::dynamic_pointer_cast <Movement> (a1));
