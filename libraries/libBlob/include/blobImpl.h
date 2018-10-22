@@ -46,6 +46,7 @@ public:
 	std::function<double(double)> _moveDirectionFn;
 	std::function<double(double)> _aggressionFn;
 
+	double scalePropertyByHPRatio (double property) const;
 	double propertyScalingFactorDueToAge () const;
 	double propertyScalingFactorDueToHunger () const;
 	unsigned int currentMaxHP () const;

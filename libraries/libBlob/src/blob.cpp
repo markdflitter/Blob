@@ -81,12 +81,12 @@ double Blob::greatestRunningSpeed () const
 
 double Blob::currentWanderingSpeed () const
 {
-	return (_impl->_greatestMaxHP == 0U) ? 0U : _impl->_greatestWanderingSpeed * (double (_impl->_currentHP)) / _impl->_greatestMaxHP;
+	return _impl->scalePropertyByHPRatio (_impl->_greatestWanderingSpeed);
 }
 
 double Blob::currentRunningSpeed () const
 {
-	return (_impl->_greatestMaxHP == 0U) ? 0U : _impl->_greatestRunningSpeed * (double (_impl->_currentHP)) / _impl->_greatestMaxHP;
+	return _impl->scalePropertyByHPRatio (_impl->_greatestRunningSpeed);
 }
 	
 double Blob::smell () const

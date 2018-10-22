@@ -25,6 +25,11 @@ BlobImpl::BlobImpl (const CreateBlob& params) :
 	setHP (currentMaxHP ());
 }
 
+double BlobImpl::scalePropertyByHPRatio (double property) const
+{
+	return (_greatestMaxHP == 0U) ? 0U : property * (double (_currentHP)) / _greatestMaxHP;
+}
+
 double BlobImpl::propertyScalingFactorDueToAge () const
 {
 	double a = -2.0 / (((double) _lifespan) * _lifespan);
