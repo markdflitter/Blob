@@ -1,10 +1,6 @@
 features
 --------
-add a scale property by HP function to blobImpl
-move these back up to blob
-	isTired ?
-	kill
-and then remove all uses of impl in tests
+impl
 
 tidy up params in blobUI build script - help doesn't match code
 	need to recopy it, as it's out of date compared to the lib copy

@@ -121,7 +121,7 @@ TEST (test_03_00_blob_t, fatigue)
 TEST (test_03_00_blob_t, starts_untired)
 {
 	Blob b = CreateBlob ();
-	EXPECT_FALSE (b.getImpl ()->_tired);
+	EXPECT_FALSE (b.isTired ());
 }
 
 TEST (test_03_00_blob_t, starts_dead)

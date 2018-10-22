@@ -64,12 +64,12 @@ public:
 
 	// state
 	std::string state () const;
+	bool isTired () const;
 	bool isDead () const;
-
+//HERE
 	//helper functions
 	double distance (const Blob& other) const;
 	double angle (const Blob& other) const;
-	
 	bool isInRange (const Blob& other, double range) const;
 	bool isInSameSquare (const Blob& other) const;
 	bool canSmell (const Blob& other) const;
@@ -77,7 +77,9 @@ public:
 	// helpers for drawing
 	double fade () const;
 		
+	// iteraction
 	std::shared_ptr <Action> chooseNextAction (std::vector<Blob>& blobs);
+	void kill ();
 
 	// Moveable
         void move (double speed, double angleInRadians, const std::string& newState);

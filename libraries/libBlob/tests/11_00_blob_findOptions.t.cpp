@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 #include <blob.h>
-#include <blobImpl.h>
 
 TEST (test_11_00_blob_findOptions_t,
   returns_nothing_if_alone)
@@ -25,7 +24,7 @@ TEST (test_11_00_blob_findOptions_t,
   does_not_consider_the_dead)
 {
 	std::vector<Blob> blobs {CreateBlob ().smell (100.0), CreateBlob ()};
-	blobs[1].getImpl ()->kill ();
+	blobs[1].kill ();
 	auto actions = blobs[0].findOptions (blobs);
 	
 	EXPECT_TRUE (actions.empty ());
