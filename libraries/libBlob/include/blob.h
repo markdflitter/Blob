@@ -66,35 +66,17 @@ public:
 	std::string state () const;
 	bool isTired () const;
 	bool isDead () const;
-//HERE
+	
 	//helper functions
 	double distance (const Blob& other) const;
 	double angle (const Blob& other) const;
 	bool isInRange (const Blob& other, double range) const;
 	bool isInSameSquare (const Blob& other) const;
 	bool canSmell (const Blob& other) const;
-
+	
 	// helpers for drawing
-	double fade () const;
-		
-	// iteraction
-	std::shared_ptr <Action> chooseNextAction (std::vector<Blob>& blobs);
-	void kill ();
-
-	// Moveable
-        void move (double speed, double angleInRadians, const std::string& newState);
-
-	// Target
-	void takeDamage (unsigned int damage);
-	void inflictDamage (Target* target, const std::string& state);
-	void retaliate (Target* target);
-
-	// Eater
-	void eat (Food* food, const std::string& state);
-
-	// Food
-	unsigned int takeABite (unsigned int biteSize);
-
+	double alpha () const;
+//HERE
 	// private	
 	void limitHPtoMax (unsigned int previousDamage);
 	
@@ -121,6 +103,24 @@ public:
 	std::vector<Option> prioritiseOptions (const std::vector <Option>& options);
 	Option selectBestOption (const std::vector <Option>& options);
 	Option chooseBestOption (std::vector<Blob>& blobs);
+
+	// iteraction
+	std::shared_ptr <Action> chooseNextAction (std::vector<Blob>& blobs);
+	void kill ();
+
+	// Moveable
+        void move (double speed, double angleInRadians, const std::string& newState);
+
+	// Target
+	void takeDamage (unsigned int damage);
+	void inflictDamage (Target* target, const std::string& state);
+	void retaliate (Target* target);
+
+	// Eater
+	void eat (Food* food, const std::string& state);
+
+	// Food
+	unsigned int takeABite (unsigned int biteSize);
 private:
 	std::shared_ptr <BlobImpl> _impl;
 };

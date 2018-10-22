@@ -182,6 +182,40 @@ double Blob::angle (const Blob& other) const
 	return atan2 (dy, -dx) + M_PI/2;
 }
 
+double Blob::alpha () const
+{
+	double timeLeft = (((double) lifespan ()) - currentAge ()) / lifespan () * _impl->propertyScalingFactorDueToHunger ();
+	return isDead () ? 0.4 : ((0.6 * timeLeft) + 0.4);
+}
+
+std::shared_ptr <Action> Blob::chooseNextAction (std::vector<Blob>& blobs)
+{
+	if (isDead())
+	{
+		return createActionDead ();
+	}
+	else
+	{
+		auto selectedOption = chooseBestOption (blobs);
+		switch (selectedOption.action ())
+		{
+			case attack:
+ 				return createActionAttack (*(selectedOption.target ()));
+			case flee:
+				return createActionFlee (*(selectedOption.target ()));
+			case wander:
+				return createActionWander ();
+			case ::eat:
+				return createActionEat (*(selectedOption.target ()));
+		}
+	}
+}
+
+void Blob::kill ()
+{
+	_impl->kill ();
+}
+	
 void Blob::limitHPtoMax (unsigned int previousDamage)
 {
 	// this is so that if we increase max (due to aging), then our current HP go up by the same amount
@@ -447,38 +481,3 @@ Option Blob::chooseBestOption (std::vector<Blob>& blobs)
 	return selectBestOption (findOptions (blobs));
 }
 
-std::shared_ptr <Action> Blob::chooseNextAction (std::vector<Blob>& blobs)
-{
-	if (isDead())
-	{
-		return createActionDead ();
-	}
-	else
-	{
-		auto selectedOption = chooseBestOption (blobs);
-		switch (selectedOption.action ())
-		{
-			case attack:
- 				return createActionAttack (*(selectedOption.target ()));
-			case flee:
-				return createActionFlee (*(selectedOption.target ()));
-			case wander:
-				return createActionWander ();
-			case ::eat:
-				return createActionEat (*(selectedOption.target ()));
-		}
-	}
-}
-
-void Blob::kill ()
-{
-	_impl->kill ();
-}
-
-double Blob::fade () const
-{
-	double timeLeft = (((double) lifespan ()) - currentAge ()) / lifespan () * _impl->propertyScalingFactorDueToHunger ();
-	return isDead () ? 0.4 : ((0.6 * timeLeft) + 0.4);
-}
-
-	
