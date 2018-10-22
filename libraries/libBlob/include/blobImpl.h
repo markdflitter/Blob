@@ -23,14 +23,15 @@ public:
 	unsigned int _greatestMaxHP;
 	unsigned int _currentHP;
 	
-	double _greatestWanderingSpeed;
-        double _greatestRunningSpeed;
+	double _wanderingSpeed;
+        double _runningSpeed;
 	
 	double _smell;
 	
+	unsigned int _damage;
+		
 	unsigned int _endurance;
 	double _aggression;
-	unsigned int _baseDamage;
 	unsigned int _size;
 
 	std::vector<Pt<double>> _points;

@@ -95,8 +95,8 @@ TEST (test_03_00_blob_t, currentAge)
 TEST (test_03_00_blob_t, damage)
 {
 	Blob b = CreateBlob ().damage (100U).lifespan (5U).HP (100U).starvationLevel (100U);
-	EXPECT_EQ (b.baseDamage (), 100U);
-	EXPECT_EQ (b.damage (), 50U);
+	EXPECT_EQ (b.greatestDamage (), 100U);
+	EXPECT_EQ (b.currentDamage (), 50U);
 }
 
 TEST (test_03_00_blob_t, hunger)

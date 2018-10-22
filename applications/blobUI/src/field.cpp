@@ -246,7 +246,7 @@ void Field::drawStatsBars (QPainter& painter,
 		drawStatsBar (painter, QPointF (targetPt.x (), targetPt.y () + 2 * (STATS_BAR_HEIGHT + STATS_BAR_SPACE)),
 		blob.currentHP (), blob.greatestMaxHP (), fadeAlpha, false, "HP");
 	drawStatsBar (painter, QPointF (targetPt.x (), targetPt.y () + 3 * (STATS_BAR_HEIGHT + STATS_BAR_SPACE)),
-		blob.damage (), blob.baseDamage (), fadeAlpha, false, "dmg");
+		blob.currentDamage (), blob.greatestDamage (), fadeAlpha, false, "dmg");
 	drawStatsBar (painter, QPointF (targetPt.x (), targetPt.y () + 4 * (STATS_BAR_HEIGHT + STATS_BAR_SPACE)),
 		blob.endurance () - blob.fatigue (), blob.endurance (), fadeAlpha, false, "nrg");
 
