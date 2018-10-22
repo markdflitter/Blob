@@ -48,7 +48,7 @@ public:
 	double currentWanderingSpeed () const;
 	double currentRunningSpeed () const;
 	
-	double smell () const;
+	double currentSmell () const;
 
 	unsigned int baseDamage () const;
 	unsigned int damage () const;

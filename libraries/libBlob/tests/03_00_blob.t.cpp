@@ -25,7 +25,7 @@ TEST (test_03_00_blob_t, position)
 TEST (test_03_00_blob_t, smell)
 {
 	Blob b = CreateBlob ().HP (100U).smell (300.3).lifespan (100U).starvationLevel (100U);
-	EXPECT_DOUBLE_EQ (b.smell (), 150.15);
+	EXPECT_DOUBLE_EQ (b.currentSmell (), 150.15);
 }
 
 TEST (test_03_00_blob_t, wanderingSpeed)

@@ -145,7 +145,8 @@ void Field::drawSmellRange (QPainter& painter,
 		QPen pen (colour);
 		pen.setWidthF (1.0 / scale);	
 		painter.setPen (pen);
-		painter.drawEllipse (QPointF (centre.x (), centre.y ()),(double) blob.smell (),(double) blob.smell ());
+		double radius = blob.currentSmell ();
+		painter.drawEllipse (QPointF (centre.x (), centre.y ()), radius, radius);
 	}
 
 	painter.setBrush (QBrush (colour));
