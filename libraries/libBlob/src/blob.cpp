@@ -109,24 +109,24 @@ unsigned int Blob::endurance () const
 	return _impl->_endurance;
 }
 
-double Blob::aggression () const
+double Blob::currentFatigue () const
 {
-	return isDead () ? _impl->_aggression : ((2.0 - _impl->propertyScalingFactorDueToHunger ()) * _impl->_aggression);
+	return _impl->_fatigue;
 }
 
-unsigned int Blob::size () const
+unsigned int Blob::currentSize () const
 {
 	return ((unsigned int) ((((double) _impl->_size) * _impl->propertyScalingFactorDueToAge ()) + 0.5)) ;
+}
+
+double Blob::currentAggression () const
+{
+	return isDead () ? _impl->_aggression : ((2.0 - _impl->propertyScalingFactorDueToHunger ()) * _impl->_aggression);
 }
 
 std::string Blob::state () const
 {
 	return _impl->_state;
-}
-
-double Blob::fatigue () const
-{
-	return _impl->_fatigue;
 }
 
 bool Blob::isDead () const
@@ -348,7 +348,7 @@ double Blob::inflictDamageWeight (const Blob& b) const
 
 double Blob::hungerWeight (const Blob& b) const
 {
-	return std::min (1.0, ((double) b.size ()) / 2000.0) * (1.0 - _impl->propertyScalingFactorDueToHunger ());
+	return std::min (1.0, ((double) b.currentSize ()) / 2000.0) * (1.0 - _impl->propertyScalingFactorDueToHunger ());
 }
 
 double Blob::avoidDamageWeight (const Blob& b) const
@@ -392,7 +392,7 @@ std::vector<Option> Blob::findOptions (std::vector<Blob>& others) const
 		{
 			if (b.isDead ())
 			{
- 				if (b.size () > 0U && _impl->propertyScalingFactorDueToHunger () < 0.30)
+ 				if (b.currentSize () > 0U && _impl->propertyScalingFactorDueToHunger () < 0.30)
 				{
 					if (isInSameSquare (b))
 					{

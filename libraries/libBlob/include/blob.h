@@ -54,18 +54,19 @@ public:
 	unsigned int currentDamage () const;
 	
 	unsigned int endurance () const;
-	double fatigue () const;
-
-	double aggression () const;
+	double currentFatigue () const;
  	
-	unsigned int size () const;
-
-	std::string state () const;
-
-	bool isDead () const;
-
+	unsigned int currentSize () const;
+	
+	double currentAggression () const;
+	
 	const std::vector<Pt<double>>& history () const;
 
+	// state
+	std::string state () const;
+	bool isDead () const;
+
+	//helper functions
 	double distance (const Blob& other) const;
 	double angle (const Blob& other) const;
 	
