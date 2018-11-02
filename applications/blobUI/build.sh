@@ -1,6 +1,6 @@
 printUsage ()
 {
-  echo "./build.sh [-c | --clean] [-d | --debug] [-D | --deep-clean] [-t | --test] [-T | --test-only] [-F | -test-filter <test to run>] [-h | --help]"
+  echo "./build.sh [--clean] [-d | --debug] [--deep-clean] [-t | --test] [-T | --test-only] [-F | -test-filter <test to run>] [-h | --help]"
 }
 
 projectType=applications
@@ -9,7 +9,7 @@ copyToSrc=1
 
 clean=
 debug=
-deepClean=
+deepClean=0
 test=
 testOnly=
 testFilter=
@@ -41,8 +41,11 @@ if [ "$debug" = "1" ]; then
 	targetFolder=debug
 fi
 
-if [ "deepClean" = "1" ]; then
-  rm -rf ../../../bld/$projectType/$project/$targetFolder
+echo "$deepClean"
+
+if [ "$deepClean" = "1" ]; then
+        echo "removing -rf ../../../bld/$projectType/$project/$targetFolder"
+	rm -rf ../../../bld/$projectType/$project/$targetFolder
 fi
 
 if [ ! -d ../../../bld ]; then
@@ -61,9 +64,9 @@ if [ ! -d ../../../bld/$projectType/$project/$targetFolder ]; then
   mkdir ../../../bld/$projectType/$project/$targetFolder
 fi
 
-
 pushd ../../../bld/$projectType/$project/$targetFolder
 
+buildStatus=0
 if [ "$testOnly" != "1" ]; then
 	if [ "$debug" = "1" ]; then
 		cmake ../../../../src/$projectType/$project -DCMAKE_BUILD_TYPE=Debug
@@ -76,10 +79,15 @@ if [ "$testOnly" != "1" ]; then
 	fi
 
 	make
+	buildStatus=$?
+	if [ "$buildStatus" -eq 0 ] && [ "$test" = "1" ]; then
+		make run-tests
+		buildStatus=$?
+	fi
 fi
 
 if [ "$test" = "1" ] || [ "$testOnly" = "1" ]; then
-	if [ $? -eq 0 ]; then
+	if [ "$buildStatus" -eq 0 ]; then
   		if [ "$testFilter" != "" ]; then
 			ctest .. -R "$testFilter" 
 		else
