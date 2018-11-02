@@ -32,7 +32,7 @@ TEST (test_03_00_blob_t, speed)
 {
 	Blob b = CreateBlob ().speed (300.3).HP (100U).lifespan (100U).maxHunger (100U);
 	EXPECT_DOUBLE_EQ (b.speed (), 300.3);
-	EXPECT_DOUBLE_EQ (b.getImpl ()->wanderingSpeed (), 150.15);
+	EXPECT_DOUBLE_EQ (b.getImpl ()->speed (), 150.15);
 }
 
 TEST (test_03_00_blob_t, running_speed)

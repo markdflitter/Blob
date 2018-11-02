@@ -25,7 +25,7 @@ BlobImpl::BlobImpl (const CreateBlob& params) :
 	setHP (maxHP ());
 }
 
-double BlobImpl::wanderingSpeed () const
+double BlobImpl::speed () const
 {
 	return (_baseHP == 0) ? 0U : _speed * (double (_HP)) / _baseHP;
 }

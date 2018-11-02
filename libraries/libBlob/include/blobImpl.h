@@ -12,7 +12,7 @@ class BlobImpl
 public:
 	BlobImpl (const CreateBlob& params);
 	
-	double wanderingSpeed () const;
+	double speed () const;
 	double runningSpeed () const;
 
 	Pt<double> position () const;
