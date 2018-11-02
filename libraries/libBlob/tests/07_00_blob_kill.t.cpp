@@ -5,7 +5,7 @@
 TEST(test_07_00_blob_kill_t, is_dead_after_being_killed)
 {
 	Blob b1 = CreateBlob ().smell (100.0).speed (100.0).runningSpeed (100.0).HP (100U)
-			.damage (100U).endurance (100U).lifespan (100U).aggression (1.0).starvationLevel (100U);
+			.damage (100U).endurance (100U).lifespan (100U).aggression (1.0).maxHunger (100U);
 	EXPECT_FALSE (b1.isDead ());
 	
 	b1.getImpl()->kill ();

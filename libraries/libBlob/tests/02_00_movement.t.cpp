@@ -143,7 +143,7 @@ TEST (test_02_00_movement_t, apply)
 
 TEST (test_02_00_movement_t, applies_to_blob)
 {
-	Blob b1 = CreateBlob ().position (make_pt (10.1, 20.2)).HP (100U).starvationLevel (100U).lifespan (100U);
+	Blob b1 = CreateBlob ().position (make_pt (10.1, 20.2)).HP (100U).maxHunger (100U).lifespan (100U);
 	std::shared_ptr<Action> m (new Movement (&b1, "because", 5.0, 0.0));
         m->apply ();
 	

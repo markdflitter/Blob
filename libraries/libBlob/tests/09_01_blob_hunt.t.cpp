@@ -3,8 +3,8 @@
 
 TEST (test_09_01_blob_hunt_t, north)
 {
-	Blob hunter = CreateBlob ().lifespan (100U).HP (100U).starvationLevel (100U).position (make_pt (5.0, 5.0)).runningSpeed (4.0);
-	Blob huntee = CreateBlob ().lifespan (100U).HP (100U).starvationLevel (100U).position (make_pt (5.0, 10.0));
+	Blob hunter = CreateBlob ().lifespan (100U).HP (100U).maxHunger (100U).position (make_pt (5.0, 5.0)).runningSpeed (4.0);
+	Blob huntee = CreateBlob ().lifespan (100U).HP (100U).maxHunger (100U).position (make_pt (5.0, 10.0));
 
 	std::shared_ptr<Action> a = hunter.createActionHunt (huntee);
 	ASSERT_TRUE (std::dynamic_pointer_cast <Movement> (a));
@@ -19,8 +19,8 @@ TEST (test_09_01_blob_hunt_t, north)
 
 TEST (test_09_01_blob_hunt_t, south)
 {
-	Blob hunter = CreateBlob ().lifespan (100U).HP (100U).starvationLevel (100U).position (make_pt (5.0, 5.0)).runningSpeed (4.0);
-	Blob huntee = CreateBlob ().lifespan (100U).HP (100U).starvationLevel (100U).position (make_pt (5.0, -10.0));
+	Blob hunter = CreateBlob ().lifespan (100U).HP (100U).maxHunger (100U).position (make_pt (5.0, 5.0)).runningSpeed (4.0);
+	Blob huntee = CreateBlob ().lifespan (100U).HP (100U).maxHunger (100U).position (make_pt (5.0, -10.0));
 
 	std::shared_ptr<Action> a = hunter.createActionHunt (huntee);
 	ASSERT_TRUE (std::dynamic_pointer_cast <Movement> (a));
@@ -35,8 +35,8 @@ TEST (test_09_01_blob_hunt_t, south)
 
 TEST (test_09_01_blob_hunt_t, east)
 {
-	Blob hunter = CreateBlob ().lifespan (100U).HP (100U).starvationLevel (100U).position (make_pt (5.0, 5.0)).runningSpeed (4.0);
-	Blob huntee = CreateBlob ().lifespan (100U).HP (100U).starvationLevel (100U).position (make_pt (10.0, 5.0));
+	Blob hunter = CreateBlob ().lifespan (100U).HP (100U).maxHunger (100U).position (make_pt (5.0, 5.0)).runningSpeed (4.0);
+	Blob huntee = CreateBlob ().lifespan (100U).HP (100U).maxHunger (100U).position (make_pt (10.0, 5.0));
 
 	std::shared_ptr<Action> a = hunter.createActionHunt (huntee);
 	ASSERT_TRUE (std::dynamic_pointer_cast <Movement> (a));
@@ -51,8 +51,8 @@ TEST (test_09_01_blob_hunt_t, east)
 
 TEST (test_09_01_blob_hunt_t, west)
 {
-	Blob hunter = CreateBlob ().lifespan (100U).HP (100U).starvationLevel (100U).position (make_pt (-5.0, 5.0)).runningSpeed (4.0);
-	Blob huntee = CreateBlob ().lifespan (100U).HP (100U).starvationLevel (100U).position (make_pt (-10.0, 5.0));
+	Blob hunter = CreateBlob ().lifespan (100U).HP (100U).maxHunger (100U).position (make_pt (-5.0, 5.0)).runningSpeed (4.0);
+	Blob huntee = CreateBlob ().lifespan (100U).HP (100U).maxHunger (100U).position (make_pt (-10.0, 5.0));
 
 	std::shared_ptr<Action> a = hunter.createActionHunt (huntee);
 	ASSERT_TRUE (std::dynamic_pointer_cast <Movement> (a));
@@ -67,8 +67,8 @@ TEST (test_09_01_blob_hunt_t, west)
 
 TEST (test_09_01_blob_hunt_t, gets_closer)
 {
-	Blob hunter = CreateBlob ().lifespan (100U).HP (100U).starvationLevel (100U).position (make_pt (-5.0, 5.0)).runningSpeed (7.0);
-	Blob huntee = CreateBlob ().lifespan (100U).HP (100U).starvationLevel (100U).position (make_pt (-10.0, 10.0));
+	Blob hunter = CreateBlob ().lifespan (100U).HP (100U).maxHunger (100U).position (make_pt (-5.0, 5.0)).runningSpeed (7.0);
+	Blob huntee = CreateBlob ().lifespan (100U).HP (100U).maxHunger (100U).position (make_pt (-10.0, 10.0));
 
 	double d1 = hunter.distance (huntee);
 	std::shared_ptr<Action> m = hunter.createActionHunt (huntee);
@@ -80,8 +80,8 @@ TEST (test_09_01_blob_hunt_t, gets_closer)
 
 TEST (test_09_01_blob_hunt_t, catches)
 {
-	Blob hunter = CreateBlob ().lifespan (100U).HP (100U).starvationLevel (100U).position (make_pt (-5.0, 5.0)).runningSpeed (7.0);
-	Blob huntee = CreateBlob ().lifespan (100U).HP (100U).starvationLevel (100U).position (make_pt (-10.0, 5.0));
+	Blob hunter = CreateBlob ().lifespan (100U).HP (100U).maxHunger (100U).position (make_pt (-5.0, 5.0)).runningSpeed (7.0);
+	Blob huntee = CreateBlob ().lifespan (100U).HP (100U).maxHunger (100U).position (make_pt (-10.0, 5.0));
 
 	std::shared_ptr<Action> a = hunter.createActionHunt (huntee);
 	ASSERT_TRUE (std::dynamic_pointer_cast <Movement> (a));

@@ -34,8 +34,8 @@ TEST (test_11_00_blob_findOptions_t,
 TEST (test_11_00_blob_findOptions_t,
   does_not_consider_others_in_other_squares_or_outside_smell_range)
 {
-	std::vector<Blob> blobs {CreateBlob ().smell (282.0).damage (100U).lifespan (100U).starvationLevel (100U), 
-		                 CreateBlob ().position (make_pt (100.0, 100.0)).HP (5U).lifespan (100U).starvationLevel (100U)};
+	std::vector<Blob> blobs {CreateBlob ().smell (282.0).damage (100U).lifespan (100U).maxHunger (100U), 
+		                 CreateBlob ().position (make_pt (100.0, 100.0)).HP (5U).lifespan (100U).maxHunger (100U)};
 	auto actions = blobs[0].findOptions (blobs);
 	
 	EXPECT_TRUE (actions.empty ());
@@ -44,7 +44,7 @@ TEST (test_11_00_blob_findOptions_t,
 TEST (test_11_00_blob_findOptions_t,
   adds_flee_and_attack_actions_for_others_in_same_square)
 {
-	std::vector<Blob> blobs {CreateBlob ().HP (100U).lifespan (100U).starvationLevel (100U), CreateBlob ().HP (100U).lifespan (100U).starvationLevel (100U)};
+	std::vector<Blob> blobs {CreateBlob ().HP (100U).lifespan (100U).maxHunger (100U), CreateBlob ().HP (100U).lifespan (100U).maxHunger (100U)};
 	auto actions = blobs[0].findOptions (blobs);
 	
 	EXPECT_EQ (actions.size (), 2U);
@@ -58,8 +58,8 @@ TEST (test_11_00_blob_findOptions_t,
 TEST (test_11_00_blob_findOptions_t,
   adds_flee_and_attack_options_for_others_in_smell_range)
 {
-	std::vector<Blob> blobs {CreateBlob ().smell (10.0).HP (100U).lifespan (100U).starvationLevel (100U),
-				 CreateBlob ().position (make_pt (3.0, 4.0)).HP (100U).lifespan (100U).starvationLevel (100U)};
+	std::vector<Blob> blobs {CreateBlob ().smell (10.0).HP (100U).lifespan (100U).maxHunger (100U),
+				 CreateBlob ().position (make_pt (3.0, 4.0)).HP (100U).lifespan (100U).maxHunger (100U)};
 	auto actions = blobs[0].findOptions (blobs);
 	
 	EXPECT_EQ (actions.size (), 2U);
@@ -72,9 +72,9 @@ TEST (test_11_00_blob_findOptions_t,
 TEST (test_11_00_blob_findOptions_t,
   adds_flee_and_attack_options_for_more_than_1_other_in_same_square)
 {
-	std::vector<Blob> blobs {CreateBlob ().HP (100U).lifespan (100U).starvationLevel (100U),
-				 CreateBlob ().HP (100U).lifespan (100U).starvationLevel (100U),
-				 CreateBlob ().HP (100U).lifespan (100U).starvationLevel (100U)};
+	std::vector<Blob> blobs {CreateBlob ().HP (100U).lifespan (100U).maxHunger (100U),
+				 CreateBlob ().HP (100U).lifespan (100U).maxHunger (100U),
+				 CreateBlob ().HP (100U).lifespan (100U).maxHunger (100U)};
 	auto actions = blobs[0].findOptions (blobs);
 	
 	EXPECT_EQ (actions.size (), 4U);
@@ -91,9 +91,9 @@ TEST (test_11_00_blob_findOptions_t,
 TEST (test_11_00_blob_findOptions_t,
   adds_flee_and_attack_options_for_more_than_1_other_in_smell_range)
 {
-	std::vector<Blob> blobs {CreateBlob ().smell (10.0).HP (100U).lifespan (100U).starvationLevel (100U),
-			         CreateBlob ().position (make_pt (1.0, 1.0)).HP (100U).lifespan (100U).starvationLevel (100U),
-				 CreateBlob ().position (make_pt (2.0, 2.0)).HP (100U).lifespan (100U).starvationLevel (100U)};
+	std::vector<Blob> blobs {CreateBlob ().smell (10.0).HP (100U).lifespan (100U).maxHunger (100U),
+			         CreateBlob ().position (make_pt (1.0, 1.0)).HP (100U).lifespan (100U).maxHunger (100U),
+				 CreateBlob ().position (make_pt (2.0, 2.0)).HP (100U).lifespan (100U).maxHunger (100U)};
 	auto actions = blobs[0].findOptions (blobs);
 	
 	EXPECT_EQ (actions.size (), 4U);
@@ -110,11 +110,11 @@ TEST (test_11_00_blob_findOptions_t,
 TEST (test_11_00_blob_findOptions_t,
   adds_flee_and_attack_options_all_relevant_others)
 {
-	std::vector<Blob> blobs {CreateBlob ().smell (10.0).HP (100U).lifespan (100U).starvationLevel (100U),
-				 CreateBlob ().HP (100U).lifespan (100U).starvationLevel (100U),
-				 CreateBlob ().HP (100U).lifespan (100U).starvationLevel (100U),
-			         CreateBlob ().position (make_pt (1.0, 1.0)).HP (100U).lifespan (100U).starvationLevel (100U),
-				 CreateBlob ().position (make_pt (2.0, 2.0)).HP (100U).lifespan (100U).starvationLevel (100U)};
+	std::vector<Blob> blobs {CreateBlob ().smell (10.0).HP (100U).lifespan (100U).maxHunger (100U),
+				 CreateBlob ().HP (100U).lifespan (100U).maxHunger (100U),
+				 CreateBlob ().HP (100U).lifespan (100U).maxHunger (100U),
+			         CreateBlob ().position (make_pt (1.0, 1.0)).HP (100U).lifespan (100U).maxHunger (100U),
+				 CreateBlob ().position (make_pt (2.0, 2.0)).HP (100U).lifespan (100U).maxHunger (100U)};
 	auto actions = blobs[0].findOptions (blobs);
 	
 	EXPECT_EQ (actions.size (), 8U);

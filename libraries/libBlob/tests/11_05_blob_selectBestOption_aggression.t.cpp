@@ -4,7 +4,7 @@
 
 namespace
 {
-	auto blob = CreateBlob ().HP (400U).damage (400U).position (make_pt (5.0, 5.0)).lifespan (1000U).starvationLevel (100U);
+	auto blob = CreateBlob ().HP (400U).damage (400U).position (make_pt (5.0, 5.0)).lifespan (1000U).maxHunger (100U);
 }
 
 TEST (test_11_05_blob_selectBestOption_aggression_t, aggressionFn_is_applied_to_attackWeight)

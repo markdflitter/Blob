@@ -2,8 +2,6 @@
 
 CreateBlob::CreateBlob () :
         _name ("")
-      , _lifespan (0U)
-      , _starvationLevel (0U)
       , _position (make_pt (0.0, 0.0))
       , _speed (0.0)
       , _runningSpeed (0.0)
@@ -11,7 +9,9 @@ CreateBlob::CreateBlob () :
       , _HP (0U)
       , _endurance (0U)
       , _aggression (0.0)
+      , _lifespan (0U)
       , _damage (0U)
+      , _maxHunger (0U)
       , _size (0U)
       , _moveDirectionFn ([] (double) {return 0.0;})
       , _aggressionFn ([](double a) {return a;})
@@ -88,10 +88,10 @@ CreateBlob CreateBlob::damage (unsigned int damage)
 	return b;
 }
 
-CreateBlob CreateBlob::starvationLevel (unsigned int starvationLevel)
+CreateBlob CreateBlob::maxHunger (unsigned int maxHunger)
 {
 	CreateBlob b (*this);
-	b._starvationLevel = starvationLevel;
+	b._maxHunger = maxHunger;
 	return b;
 }
 

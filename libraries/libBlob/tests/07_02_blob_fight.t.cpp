@@ -3,7 +3,7 @@
 
 TEST (test_07_02_blob_fight_t, takesDamage)
 {
-	Blob b = CreateBlob ().HP (100U).lifespan (1000U).starvationLevel (100U);
+	Blob b = CreateBlob ().HP (100U).lifespan (1000U).maxHunger (100U);
 	EXPECT_EQ (b.HP (), 50U);
 	EXPECT_FALSE (b.isDead ());
 
@@ -14,8 +14,8 @@ TEST (test_07_02_blob_fight_t, takesDamage)
 
 TEST (test_07_02_blob_fight_t, inflictsDamage)
 {
-	Blob target = CreateBlob ().HP (100U).lifespan (1000U).starvationLevel (100U);
-	Blob attacker = CreateBlob ().HP (100U).lifespan (1000U).starvationLevel (100U).damage (10U);
+	Blob target = CreateBlob ().HP (100U).lifespan (1000U).maxHunger (100U);
+	Blob attacker = CreateBlob ().HP (100U).lifespan (1000U).maxHunger (100U).damage (10U);
 	EXPECT_EQ (target.HP (), 50U);
 	EXPECT_FALSE (attacker.isDead ());
 
@@ -26,8 +26,8 @@ TEST (test_07_02_blob_fight_t, inflictsDamage)
 
 TEST (test_07_02_blob_fight_t, retaliates)
 {
-	Blob target = CreateBlob ().HP (100U).lifespan (1000U).starvationLevel (100U).damage (10U);
-	Blob attacker = CreateBlob ().HP (100U).lifespan (1000U).starvationLevel (100U).damage (10U);
+	Blob target = CreateBlob ().HP (100U).lifespan (1000U).maxHunger (100U).damage (10U);
+	Blob attacker = CreateBlob ().HP (100U).lifespan (1000U).maxHunger (100U).damage (10U);
 	EXPECT_EQ (target.HP (), 50U);
 	EXPECT_FALSE (attacker.isDead ());
 
@@ -37,8 +37,8 @@ TEST (test_07_02_blob_fight_t, retaliates)
 
 TEST (test_07_02_blob_fight_t, does_not_retaliate_if_dead)
 {
-	Blob target = CreateBlob ().HP (100U).lifespan (1000U).starvationLevel (10000U).damage (10000U);
-	Blob attacker = CreateBlob ().HP (100U).lifespan (1000U).starvationLevel (10000U).damage (100U);
+	Blob target = CreateBlob ().HP (100U).lifespan (1000U).maxHunger (10000U).damage (10000U);
+	Blob attacker = CreateBlob ().HP (100U).lifespan (1000U).maxHunger (10000U).damage (100U);
 	EXPECT_EQ (target.HP (), 50U);
 	EXPECT_FALSE (attacker.isDead ());
 
@@ -50,7 +50,7 @@ TEST (test_07_02_blob_fight_t, does_not_retaliate_if_dead)
 
 TEST (test_07_02_blob_fight_t, kill)
 {
-	Blob b = CreateBlob ().HP (100U).lifespan (10U).starvationLevel (100U);
+	Blob b = CreateBlob ().HP (100U).lifespan (10U).maxHunger (100U);
 	EXPECT_EQ (b.HP (), 50U);
 	EXPECT_FALSE (b.isDead ());
 
@@ -61,7 +61,7 @@ TEST (test_07_02_blob_fight_t, kill)
 
 TEST (test_07_02_blob_fight_t, overkill)
 {
-	Blob b = CreateBlob ().HP (100U).lifespan (10U).starvationLevel (100U);
+	Blob b = CreateBlob ().HP (100U).lifespan (10U).maxHunger (100U);
 	EXPECT_EQ (b.HP (), 50U);
 	EXPECT_FALSE (b.isDead ());
 
