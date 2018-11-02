@@ -225,21 +225,21 @@ TEST (test_08_00_blob_age_t, blobs_change_runningSpeed_with_age)
 TEST (test_08_00_blob_age_t, blobs_change_smell_with_age)
 {
 	Blob b1 = CreateBlob ().smell (100.0).HP (100U).lifespan (10U).starvationLevel (100U);
-	EXPECT_DOUBLE_EQ (b1.currentSmell (), 50.0);
+	EXPECT_DOUBLE_EQ (b1.smell (), 50.0);
 
-	double previous = b1.currentSmell ();
+	double previous = b1.smell ();
 	for (size_t i = 0; i < 10; i++)
 	{
 		b1.growOlder ();
 		if (i < 5)
 		{
-			EXPECT_GT (b1.currentSmell (), previous);
+			EXPECT_GT (b1.smell (), previous);
 		}
 		else
 		{
-			EXPECT_LT (b1.currentSmell (), previous);
+			EXPECT_LT (b1.smell (), previous);
 		}
-		previous = b1.currentSmell ();
+		previous = b1.smell ();
 	}
 }
 

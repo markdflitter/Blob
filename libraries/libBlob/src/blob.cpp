@@ -89,9 +89,9 @@ double Blob::currentRunningSpeed () const
 	return _impl->scalePropertyByHPRatio (_impl->_greatestRunningSpeed);
 }
 	
-double Blob::currentSmell () const
+double Blob::smell () const
 {
-	return _impl->_smell * _impl->propertyScalingFactorDueToAge ();
+	return _impl->_baseSmell * _impl->propertyScalingFactorDueToAge ();
 }
 
 unsigned int Blob::baseDamage () const
@@ -165,7 +165,7 @@ bool Blob::isInSameSquare (const Blob& other) const
 
 bool Blob::canSmell (const Blob& other) const
 {
-	return isInRange (other, currentSmell ());
+	return isInRange (other, smell ());
 }
 
 double Blob::angle (const Blob& other) const
@@ -365,7 +365,7 @@ double Blob::distanceWeight (const Blob& b) const
 	}
 	else if (canSmell (b)) 
 	{
-		return 1.0 - (distance (b) / currentSmell ());
+		return 1.0 - (distance (b) / smell ());
 	}
 	else
 	{

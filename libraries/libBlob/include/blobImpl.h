@@ -26,8 +26,7 @@ public:
 	double _greatestWanderingSpeed;
         double _greatestRunningSpeed;
 	
-	double _smell;
-	
+	double _baseSmell;
 	unsigned int _endurance;
 	double _aggression;
 	unsigned int _baseDamage;
