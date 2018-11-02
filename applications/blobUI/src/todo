@@ -1,10 +1,7 @@
 features
 --------
-proper lib for libBlob and createBlob
-	pimpl or proper interface - probably pimpl initially
-
-tidy up params in blobUI build script - help doesn't match code
-	need to recopy it, as it's out of date compared to the lib copy
+split blob up into separate classes
+make build script more generic, should not need to hard code folders!
 
 test coverage
 
