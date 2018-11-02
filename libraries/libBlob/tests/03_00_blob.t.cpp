@@ -136,6 +136,18 @@ TEST (test_03_00_blob_t, starts_alive)
 	EXPECT_FALSE (b.isDead ());
 }
 
+
+TEST (test_03_00_blob_t, output)
+{
+	Blob b = CreateBlob ().position (make_pt (20.2, 40.4));
+	
+	std::stringstream s;
+
+	s << b;
+
+	EXPECT_EQ (s.str (), "20.2,40.4");
+}
+
 TEST (test_03_00_blob_t, limitHPtoMax_keeps_damage)
 {
 	Blob b = CreateBlob ().HP (100U).lifespan (10U).maxHunger (100U);

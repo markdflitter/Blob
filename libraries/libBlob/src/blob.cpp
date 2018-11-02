@@ -24,6 +24,14 @@ Pt<double> Blob::WORLD_SIZE ()
 	return r;
 }
 
+std::ostream& operator<< (std::ostream& s, const Blob& b)
+{	
+	Pt<double> p = b._impl->position ();
+
+	s << p.x () << "," << p.y ();
+	return s; 
+}
+
 std::shared_ptr <BlobImpl> Blob::getImpl ()
 {
 	return _impl;
@@ -41,7 +49,7 @@ unsigned int Blob::lifespan () const
 
 unsigned int Blob::currentAge () const
 {
-	return _impl->_currentAge;
+	return _impl->_age;
 }
 
 double Blob::maxWanderingSpeed () const
@@ -179,7 +187,7 @@ void Blob::growOlder ()
 	if (!isDead ())
 	{
 		unsigned int previousDamage = _impl->maxHP () - HP ();
-		if (++_impl->_currentAge >= lifespan ())
+		if (++_impl->_age >= lifespan ())
 		{
 			_impl->kill ();
 		}	

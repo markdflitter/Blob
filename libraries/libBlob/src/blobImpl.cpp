@@ -17,7 +17,7 @@ BlobImpl::BlobImpl (const CreateBlob& params) :
 	,  _state ("newborn")
  	, _fatigue (0)
 	, _tired (false)
-	, _currentAge (0)
+	, _age (0)
 	, _hunger (0.0)
 	, _dead (false)
 {
@@ -36,7 +36,7 @@ double BlobImpl::propertyScalingFactorDueToAge () const
 	double b = 2.0 / ((double) _lifespan);
 	double c = 0.5;
 
-	return a * ((double) _currentAge) * _currentAge + b * ((double) _currentAge) + c;
+	return a * ((double) _age) * _age + b * ((double) _age) + c;
 }
 
 double BlobImpl::propertyScalingFactorDueToHunger () const

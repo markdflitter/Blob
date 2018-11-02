@@ -44,7 +44,7 @@ public:
 	unsigned int _fatigue;
 	bool _tired;
 
-	unsigned int _currentAge;	
+	unsigned int _age;	
 	bool _dead;
 
 	std::function<double(double)> _moveDirectionFn;
