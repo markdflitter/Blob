@@ -44,16 +44,6 @@ unsigned int Blob::currentAge () const
 	return _impl->_currentAge;
 }
 
-unsigned int Blob::starvationLevel () const
-{
-	return _impl->_starvationLevel;
-}
-
-double Blob::currentHunger () const
-{
-	return _impl->_currentHunger;
-}
-
 double Blob::maxWanderingSpeed () const
 {
 	return _impl->_wanderingSpeed;
@@ -104,6 +94,16 @@ double Blob::aggression () const
 	return isDead () ? _impl->_aggression : ((2.0 - _impl->propertyScalingFactorDueToHunger ()) * _impl->_aggression);
 }
 
+unsigned int Blob::maxHunger () const
+{
+	return _impl->_maxHunger;
+}
+
+double Blob::hunger () const
+{
+	return _impl->_hunger;
+}
+
 unsigned int Blob::size () const
 {
 	return ((unsigned int) ((((double) _impl->_size) * _impl->propertyScalingFactorDueToAge ()) + 0.5)) ;
@@ -132,8 +132,8 @@ const std::vector<Pt<double>>& Blob::history () const
 
 double Blob::distance (const Blob& other) const
 {
-	Pt<double> p1 = other._impl->_points.back ();
-	Pt<double> p2 = _impl->_points.back ();
+	Pt<double> p1 = other._impl->position ();
+	Pt<double> p2 = _impl->position ();
 
 	double dx = p1.x () - p2.x ();
 	double dy = p1.y () - p2.y ();
@@ -159,8 +159,8 @@ bool Blob::canSmell (const Blob& other) const
 
 double Blob::angle (const Blob& other) const
 {
-	Pt<double> p1 = _impl->_points.back ();
-	Pt<double> p2 = other._impl->_points.back ();
+	Pt<double> p1 = _impl->position ();
+	Pt<double> p2 = other._impl->position ();
 
 	double dx = p1.x () - p2.x ();
 	double dy = p1.y () - p2.y ();
@@ -194,10 +194,10 @@ void Blob::growOlder ()
 void Blob::getHungrier (double amount)
 {
 	unsigned int previousDamage = _impl->maxHP () - HP ();
-	_impl->_currentHunger += amount;
-	if (_impl->_currentHunger > (double) _impl->_starvationLevel)
+	_impl->_hunger += amount;
+	if (_impl->_hunger > (double) _impl->_maxHunger)
 	{
-		_impl->_currentHunger = (double) _impl->_starvationLevel;
+		_impl->_hunger = (double) _impl->_maxHunger;
 	}
 	limitHPtoMax (previousDamage);
 }
@@ -233,7 +233,7 @@ void Blob::move (double speed, double angleInRadians, const std::string& newStat
 	
 	_impl->_previousAngleInRadians = angleInRadians;
 
-	Pt<double> p = _impl->_points.back ();
+	Pt<double> p = _impl->position ();
 
 	double denormalisedMoveDirection = _impl->_previousAngleInRadians - M_PI / 2;
 	double newX = p.x () + speed * cos (denormalisedMoveDirection);
@@ -265,7 +265,7 @@ void Blob::move (double speed, double angleInRadians, const std::string& newStat
 void Blob::eat (Food* food, const std::string& state)
 {
 	_impl->_state = state;
-	_impl->_currentHunger -= food->takeABite (_impl->_currentHunger);
+	_impl->_hunger -= food->takeABite (_impl->_hunger);
 }
  
 unsigned int Blob::takeABite (unsigned int biteSize)

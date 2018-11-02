@@ -10,7 +10,7 @@ BlobImpl::BlobImpl (const CreateBlob& params) :
 	, _aggression (params._aggression)
 	, _lifespan (params._lifespan)
 	, _baseDamage (params._damage)
-	, _starvationLevel (params._maxHunger)
+	, _maxHunger (params._maxHunger)
 	, _size (params._size)
 	, _moveDirectionFn (params._moveDirectionFn)
 	, _aggressionFn (params._aggressionFn)
@@ -18,11 +18,16 @@ BlobImpl::BlobImpl (const CreateBlob& params) :
  	, _fatigue (0)
 	, _tired (false)
 	, _currentAge (0)
-	, _currentHunger (0.0)
+	, _hunger (0.0)
 	, _dead (false)
 {
 	_points.push_back (params._position);
 	setHP (maxHP ());
+}
+
+Pt<double> BlobImpl::position () const
+{
+	return _points.back ();
 }
 
 double BlobImpl::propertyScalingFactorDueToAge () const
@@ -36,7 +41,7 @@ double BlobImpl::propertyScalingFactorDueToAge () const
 
 double BlobImpl::propertyScalingFactorDueToHunger () const
 {
-	return (_starvationLevel - _currentHunger) / _starvationLevel;
+	return (_maxHunger - _hunger) / _maxHunger;
 }
 
 unsigned int BlobImpl::maxHP () const
@@ -66,8 +71,8 @@ void BlobImpl::kill ()
 	_baseDamage = 0U;
 	_endurance = 0U;
 	_aggression = 0.0;
-	_starvationLevel = 0U;
-	_currentHunger = 0.0;
+	_maxHunger = 0U;
+	_hunger = 0.0;
 }
 
 
