@@ -28,24 +28,9 @@ std::string Blob::name () const
 	return _impl->_name;
 }
 
-double Blob::speed () const
+double Blob::baseSpeed () const
 {
 	return _impl->_speed;
-}
-	
-unsigned int Blob::age () const
-{
-	return _impl->_age;
-}
-
-double Blob::ageRatio () const
-{
-	return _impl->ageRatio ();
-}
-
-double Blob::hungerRatio () const
-{
-	return _impl->hungerRatio ();
 }
 
 double Blob::smell () const
@@ -106,6 +91,11 @@ unsigned int Blob::size () const
 unsigned int Blob::lifespan () const
 {
 	return _impl->_lifespan;
+}
+
+unsigned int Blob::age () const
+{
+	return _impl->_age;
 }
 
 std::string Blob::state () const

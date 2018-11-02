@@ -165,7 +165,7 @@ TEST (test_08_00_blob_age_t, blobs_get_slower_with_less_HP)
 
 	b1.getImpl ()->setHP (40);
 
-	EXPECT_DOUBLE_EQ (b1.speed (), 100.0);
+	EXPECT_DOUBLE_EQ (b1.baseSpeed (), 100.0);
 	EXPECT_DOUBLE_EQ (b1.getImpl ()->speed (), 40.0);
 }
 
@@ -187,7 +187,7 @@ TEST (test_08_00_blob_age_t, blobs_change_speed_with_age)
 			EXPECT_LT (b1.getImpl ()->speed (), previous);
 		}
 		previous = b1.getImpl ()->speed ();
-		EXPECT_DOUBLE_EQ (b1.speed (), (i == 9) ? 0.0 : 100.0);
+		EXPECT_DOUBLE_EQ (b1.baseSpeed (), (i == 9) ? 0.0 : 100.0);
 	}
 
 }

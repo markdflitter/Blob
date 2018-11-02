@@ -1,6 +1,5 @@
 features
 --------
-make sure everything using the impl really needs to
 so: steps are:
   3) move private methods out of blob into the pimpl and update the blob and the tests
     	the tests would probably need to be renamed if they are pimpl tests
