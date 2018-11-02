@@ -54,21 +54,6 @@ double Blob::currentHunger () const
 	return _impl->_currentHunger;
 }
 
-unsigned int Blob::greatestMaxHP () const
-{
-	return _impl->_greatestMaxHP;
-}
-
-unsigned int Blob::currentMaxHP () const
-{
-	return _impl->currentMaxHP ();
-}
-
-unsigned int Blob::currentHP () const
-{
-	return _impl->_currentHP;
-}
-
 double Blob::maxWanderingSpeed () const
 {
 	return _impl->_wanderingSpeed;
@@ -76,17 +61,27 @@ double Blob::maxWanderingSpeed () const
 
 double Blob::currentWanderingSpeed () const
 {
-	return (_impl->_greatestMaxHP == 0U) ? 0U : _impl->_wanderingSpeed * (double (_impl->_currentHP)) / _impl->_greatestMaxHP;
+	return (_impl->_baseHP == 0U) ? 0U : _impl->_wanderingSpeed * (double (_impl->_HP)) / _impl->_baseHP;
 }
 
 double Blob::currentRunningSpeed () const
 {
-	return (_impl->_greatestMaxHP == 0U) ? 0U : _impl->_runningSpeed * (double (_impl->_currentHP)) / _impl->_greatestMaxHP;
+	return (_impl->_baseHP == 0U) ? 0U : _impl->_runningSpeed * (double (_impl->_HP)) / _impl->_baseHP;
 }
 	
 double Blob::smell () const
 {
 	return _impl->_baseSmell * _impl->propertyScalingFactorDueToAge ();
+}
+
+unsigned int Blob::baseHP () const
+{
+	return _impl->_baseHP;
+}
+
+unsigned int Blob::HP () const
+{
+	return _impl->_HP;
 }
 
 unsigned int Blob::baseDamage () const
@@ -96,8 +91,7 @@ unsigned int Blob::baseDamage () const
 
 unsigned int Blob::damage () const
 {
-	return (_impl->_greatestMaxHP == 0) ? 0U :
-		 ((unsigned int) ((_impl->_baseDamage * (double (_impl->_currentHP)) / _impl->_greatestMaxHP) + 0.5));
+	return (baseHP () == 0) ? 0U : ((unsigned int) ((_impl->_baseDamage * (double (_impl->_HP)) / baseHP ()) + 0.5));
 }
 
 unsigned int Blob::endurance () const
@@ -177,29 +171,29 @@ double Blob::angle (const Blob& other) const
 void Blob::limitHPtoMax (unsigned int previousDamage)
 {
 	// this is so that if we increase max (due to aging), then our current HP go up by the same amount
-	_impl->setHP (_impl->currentMaxHP () - previousDamage);
+	_impl->setHP (_impl->maxHP () - previousDamage);
 }
 
 void Blob::growOlder ()
 {
 	if (!isDead ())
 	{
-		unsigned int previousDamage = _impl->currentMaxHP () - _impl->_currentHP;
+		unsigned int previousDamage = _impl->maxHP () - HP ();
 		if (++_impl->_currentAge >= lifespan ())
 		{
 			_impl->kill ();
 		}	
 		limitHPtoMax (previousDamage);
-		if (_impl->_currentHP < _impl->currentMaxHP ())
+		if (_impl->_HP < _impl->maxHP ())
 		{
-			_impl->setHP (_impl->_currentHP + 1U);
+			_impl->setHP (_impl->_HP + 1U);
 		}
 	}
 }
 
 void Blob::getHungrier (double amount)
 {
-	unsigned int previousDamage = _impl->currentMaxHP () - _impl->_currentHP;
+	unsigned int previousDamage = _impl->maxHP () - HP ();
 	_impl->_currentHunger += amount;
 	if (_impl->_currentHunger > (double) _impl->_starvationLevel)
 	{
@@ -210,9 +204,9 @@ void Blob::getHungrier (double amount)
 
 void Blob::takeDamage (unsigned int damage)
 {
-	if (_impl->_currentHP >= damage)
+	if (_impl->_HP >= damage)
 	{
-		_impl->setHP (_impl->_currentHP - damage);
+		_impl->setHP (_impl->_HP - damage);
 	}
 	else
 	{
@@ -339,7 +333,7 @@ double Blob::relativeDifference (double v1, double v2)
 
 double Blob::inflictDamageWeight (const Blob& b) const
 {
-	return relativeDifference (damage (), b._impl->_currentHP) * 2.0;
+	return relativeDifference (damage (), b.HP ()) * 2.0;
 }
 
 double Blob::hungerWeight (const Blob& b) const
@@ -349,7 +343,7 @@ double Blob::hungerWeight (const Blob& b) const
 
 double Blob::avoidDamageWeight (const Blob& b) const
 {
-	return relativeDifference (b.damage () + 1, _impl->_currentHP) * 2.0;
+	return relativeDifference (b.damage () + 1, HP ()) * 2.0;
 }
 
 double Blob::distanceWeight (const Blob& b) const

@@ -16,8 +16,8 @@ TEST(test_07_00_blob_kill_t, is_dead_after_being_killed)
 	EXPECT_DOUBLE_EQ (b1.currentWanderingSpeed (), 0.0);
 	EXPECT_DOUBLE_EQ (b1.currentRunningSpeed (), 0.0);
 	EXPECT_DOUBLE_EQ (b1.aggression (), 0.0);
-	EXPECT_EQ (b1.currentMaxHP (), 0U);
-	EXPECT_EQ (b1.getImpl ()->_greatestMaxHP, 0U);
+	EXPECT_EQ (b1.getImpl ()->maxHP (), 0U);
+	EXPECT_EQ (b1.getImpl ()->_baseHP, 0U);
 	EXPECT_EQ (b1.damage (), 0U);
 	EXPECT_EQ (b1.endurance (), 0U);
 	EXPECT_EQ (b1.starvationLevel (), 0U);

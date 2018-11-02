@@ -44,27 +44,27 @@ TEST (test_03_00_blob_t, runningSpeed)
 TEST (test_03_00_blob_t, HP)
 {
 	Blob b = CreateBlob ().HP (500U).lifespan (100U).starvationLevel (100U);
-	EXPECT_EQ (b.greatestMaxHP (), 500U);
-	EXPECT_EQ (b.currentMaxHP (), 250U);
-	EXPECT_EQ (b.currentHP (), 250U);
+	EXPECT_EQ (b.baseHP (), 500U);
+	EXPECT_EQ (b.getImpl ()->maxHP (), 250U);
+	EXPECT_EQ (b.HP (), 250U);
 }
 
 TEST (test_03_00_blob_t, setHP)
 {
 	Blob b = CreateBlob ().HP (500U).lifespan (100U).starvationLevel (100U);
 
-	EXPECT_EQ (b.currentHP (), 250U);
+	EXPECT_EQ (b.HP (), 250U);
 	b.getImpl ()->setHP (80U);	
-	EXPECT_EQ (b.currentHP (), 80U);
+	EXPECT_EQ (b.HP (), 80U);
 }
 
 TEST (test_03_00_blob_t, setHP_and_die)
 {
 	Blob b = CreateBlob ().HP (500U).lifespan (100U).starvationLevel (100U);
 
-	EXPECT_EQ (b.currentHP (), 250U);
+	EXPECT_EQ (b.HP (), 250U);
 	b.getImpl ()->setHP (0U);	
-	EXPECT_EQ (b.currentHP (), 0U);
+	EXPECT_EQ (b.HP (), 0U);
 	EXPECT_TRUE (b.isDead ());
 }
 
@@ -139,15 +139,15 @@ TEST (test_03_00_blob_t, starts_alive)
 TEST (test_03_00_blob_t, limitHPtoMax_keeps_damage)
 {
 	Blob b = CreateBlob ().HP (100U).lifespan (10U).starvationLevel (100U);
-	EXPECT_EQ (b.currentHP (), 50U);
+	EXPECT_EQ (b.HP (), 50U);
 
 	b.takeDamage (10U);
-	EXPECT_EQ (b.currentHP (), 40U);
+	EXPECT_EQ (b.HP (), 40U);
 
 	b.limitHPtoMax (20U);
-	EXPECT_EQ (b.currentHP (), 30U);
+	EXPECT_EQ (b.HP (), 30U);
 
 	b.growOlder ();
-	EXPECT_EQ (b.currentHP (), 49U);
+	EXPECT_EQ (b.HP (), 49U);
 }
 
