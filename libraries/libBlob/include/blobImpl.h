@@ -12,10 +12,13 @@ class BlobImpl
 public:
 	BlobImpl (const CreateBlob& params);
 	
+	double wanderingSpeed () const;
+	double runningSpeed () const;
+
 	Pt<double> position () const;
  
-	double propertyScalingFactorDueToAge () const;
-	double propertyScalingFactorDueToHunger () const;
+	double ageRatio () const;
+	double hungerRatio () const;
 	unsigned int maxHP () const;
 	
 	void setHP (unsigned int newHP);
@@ -24,7 +27,7 @@ public:
 	std::vector<Pt<double>> _points;
 
 	std::string _name;
-	double _wanderingSpeed;
+	double _speed;
         double _runningSpeed;
 	double _baseSmell;
 	unsigned int _baseHP;

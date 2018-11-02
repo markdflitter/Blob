@@ -20,87 +20,60 @@ class BlobImpl;
 class Blob : public Moveable, public Target, public Eater, public Food
 {
 public:
-	// constructors
 	Blob (const CreateBlob& params);
 	Blob (const Blob& other);
-	
-	//static properties
-	static Pt<double> WORLD_SIZE ();
-	
-	// operator<<
-	friend std::ostream& operator<<(std::ostream& s, const Blob& b);
 
-	// impl loophole
 	std::shared_ptr <BlobImpl> getImpl ();
 	
-	// basic property accessors
 	std::string name () const;
-
- 	unsigned int lifespan () const;
-	unsigned int currentAge () const;
-
-	unsigned int maxHunger () const;
- 	double hunger () const;
+	double speed () const;
+	
+	unsigned int age () const;
+	double ageRatio () const;
 	double hungerRatio () const;
 
-	unsigned int baseHP () const;
-	unsigned int MaxHP () const;
-	unsigned int HP () const;
-
-	double maxWanderingSpeed () const;
-	double currentWanderingSpeed () const;
-	double currentRunningSpeed () const;
-	
 	double smell () const;
-
+	unsigned int baseHP () const;
+	unsigned int HP () const;
+	unsigned int maxHP () const;
 	unsigned int baseDamage () const;
 	unsigned int damage () const;
-	
 	unsigned int endurance () const;
-	double fatigue () const;
-
 	double aggression () const;
- 	
-	unsigned int size () const;
-
+ 	unsigned int maxHunger () const;
+ 	double hunger () const;
+ 	unsigned int size () const;
+	unsigned int lifespan () const;
 	std::string state () const;
+
+	double fatigue () const;
+	bool isTired () const;
 
 	bool isDead () const;
 
 	const std::vector<Pt<double>>& history () const;
 
 	double distance (const Blob& other) const;
-	double angle (const Blob& other) const;
-	
 	bool isInRange (const Blob& other, double range) const;
 	bool isInSameSquare (const Blob& other) const;
 	bool canSmell (const Blob& other) const;
 
-	// helpers for drawing
-	double fade () const;
-		
-	std::shared_ptr <Action> chooseNextAction (std::vector<Blob>& blobs);
+	double angle (const Blob& other) const;
 
-	// Moveable
-        void move (double speed, double angleInRadians, const std::string& newState);
-
-	// Target
-	void takeDamage (unsigned int damage);
-	void inflictDamage (Target* target, const std::string& state);
-	void retaliate (Target* target);
-
-	// Eater
-	void eat (Food* food, const std::string& state);
-
-	// Food
-	unsigned int takeABite (unsigned int biteSize);
-
-	// private	
 	void limitHPtoMax (unsigned int previousDamage);
 	
 	void growOlder ();
 	void getHungrier (double amount);
 	
+	void takeDamage (unsigned int damage);
+	void inflictDamage (Target* target, const std::string& state);
+	void retaliate (Target* target);
+
+        void move (double speed, double angleInRadians, const std::string& newState);
+      
+	void eat (Food* food, const std::string& state);
+	unsigned int takeABite (unsigned int biteSize);
+ 
 	std::shared_ptr <Action> createActionDead ();
         std::shared_ptr <Action> createActionWander ();
 	std::shared_ptr <Action> createActionFlee (const Blob& target);
@@ -121,6 +94,11 @@ public:
 	std::vector<Option> prioritiseOptions (const std::vector <Option>& options);
 	Option selectBestOption (const std::vector <Option>& options);
 	Option chooseBestOption (std::vector<Blob>& blobs);
+	std::shared_ptr <Action> chooseNextAction (std::vector<Blob>& blobs);
+
+	friend std::ostream& operator<<(std::ostream& s, const Blob& b);
+	
+	static Pt<double> WORLD_SIZE ();
 private:
 	std::shared_ptr <BlobImpl> _impl;
 };

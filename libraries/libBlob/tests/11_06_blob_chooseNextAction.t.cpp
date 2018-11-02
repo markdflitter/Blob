@@ -80,10 +80,10 @@ TEST (test_11_06_blob_chooseNextAction_t, dead_blobs_do_nothing)
 TEST (test_11_06_blob_chooseNextAction_t, dead_blobs_do_not_age)
 {
 	std::vector<Blob> blobs {CreateBlob ().lifespan (2U)};
-	EXPECT_EQ (blobs[0].currentAge (), 0U);
+	EXPECT_EQ (blobs[0].age (), 0U);
 	blobs[0].getImpl ()->kill ();	
 	std::shared_ptr <Action> a = blobs[0].chooseNextAction (blobs);
 	a->apply ();
-	EXPECT_EQ (blobs[0].currentAge (), 0U);
+	EXPECT_EQ (blobs[0].age (), 0U);
 }
 

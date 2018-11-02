@@ -18,20 +18,6 @@ Blob::Blob (const Blob& other) :
 {
 }
 
-Pt<double> Blob::WORLD_SIZE ()
-{
-	static Pt<double> r (1500.0, 750.0);
-	return r;
-}
-
-std::ostream& operator<< (std::ostream& s, const Blob& b)
-{	
-	Pt<double> p = b._impl->position ();
-
-	s << p.x () << "," << p.y ();
-	return s; 
-}
-
 std::shared_ptr <BlobImpl> Blob::getImpl ()
 {
 	return _impl;
@@ -42,34 +28,29 @@ std::string Blob::name () const
 	return _impl->_name;
 }
 
-unsigned int Blob::lifespan () const
+double Blob::speed () const
 {
-	return _impl->_lifespan;
+	return _impl->_speed;
 }
-
-unsigned int Blob::currentAge () const
+	
+unsigned int Blob::age () const
 {
 	return _impl->_age;
 }
 
-double Blob::maxWanderingSpeed () const
+double Blob::ageRatio () const
 {
-	return _impl->_wanderingSpeed;
+	return _impl->ageRatio ();
 }
 
-double Blob::currentWanderingSpeed () const
+double Blob::hungerRatio () const
 {
-	return (_impl->_baseHP == 0U) ? 0U : _impl->_wanderingSpeed * (double (_impl->_HP)) / _impl->_baseHP;
+	return _impl->hungerRatio ();
 }
 
-double Blob::currentRunningSpeed () const
-{
-	return (_impl->_baseHP == 0U) ? 0U : _impl->_runningSpeed * (double (_impl->_HP)) / _impl->_baseHP;
-}
-	
 double Blob::smell () const
 {
-	return _impl->_baseSmell * _impl->propertyScalingFactorDueToAge ();
+	return _impl->_baseSmell * _impl->ageRatio ();
 }
 
 unsigned int Blob::baseHP () const
@@ -80,6 +61,11 @@ unsigned int Blob::baseHP () const
 unsigned int Blob::HP () const
 {
 	return _impl->_HP;
+}
+
+unsigned int Blob::maxHP () const
+{
+	return _impl->maxHP ();
 }
 
 unsigned int Blob::baseDamage () const
@@ -99,7 +85,7 @@ unsigned int Blob::endurance () const
 
 double Blob::aggression () const
 {
-	return isDead () ? _impl->_aggression : ((2.0 - _impl->propertyScalingFactorDueToHunger ()) * _impl->_aggression);
+	return isDead () ? _impl->_aggression : ((2.0 - _impl->hungerRatio ()) * _impl->_aggression);
 }
 
 unsigned int Blob::maxHunger () const
@@ -114,7 +100,12 @@ double Blob::hunger () const
 
 unsigned int Blob::size () const
 {
-	return ((unsigned int) ((((double) _impl->_size) * _impl->propertyScalingFactorDueToAge ()) + 0.5)) ;
+	return ((unsigned int) ((((double) _impl->_size) * _impl->ageRatio ()) + 0.5)) ;
+}
+
+unsigned int Blob::lifespan () const
+{
+	return _impl->_lifespan;
 }
 
 std::string Blob::state () const
@@ -126,6 +117,12 @@ double Blob::fatigue () const
 {
 	return _impl->_fatigue;
 }
+
+bool Blob::isTired () const
+{
+	return _impl->_tired;
+}
+ 
 
 bool Blob::isDead () const
 {
@@ -256,7 +253,7 @@ void Blob::move (double speed, double angleInRadians, const std::string& newStat
 
 	_impl->_state = newState;
 
-	if (speed > _impl->_wanderingSpeed)
+	if (speed > _impl->_speed)
 	{
 		if (_impl->_fatigue < _impl->_endurance) _impl->_fatigue++;
 	}
@@ -291,22 +288,22 @@ std::shared_ptr <Action> Blob::createActionDead ()
 std::shared_ptr <Action> Blob::createActionWander ()
 {
 	double angle = _impl->_moveDirectionFn (_impl->_previousAngleInRadians);
-	return std::shared_ptr<Action> (new Movement (this, "wandering", _impl->_wanderingSpeed, angle));
+	return std::shared_ptr<Action> (new Movement (this, "wandering", _impl->_speed, angle));
 }
         
 std::shared_ptr <Action> Blob::createActionFlee (const Blob& target)
 {
 	return std::shared_ptr <Action> (new Movement (this,
-			 "running from " + target.name () + (!_impl->_tired ? " (fast)" : ""),
-			_impl->_tired ? _impl->_wanderingSpeed : _impl->_runningSpeed,
+			 "running from " + target.name () + (!isTired () ? " (fast)" : ""),
+			isTired () ? _impl->_speed : _impl->_runningSpeed,
 			_impl->_moveDirectionFn ((0.9 * _impl->_previousAngleInRadians + 0.1 * (angle (target) + M_PI)))));
 }
        
 std::shared_ptr <Action> Blob::createActionHunt (const Blob& target)
 {
 	return std::shared_ptr <Action> (new Movement (this,
-		 "hunting " + target.name () + (!_impl->_tired ? " (fast)" : ""),
-		std::min (_impl->_tired ? _impl->_wanderingSpeed : _impl->_runningSpeed, distance (target)),
+		 "hunting " + target.name () + (!isTired () ? " (fast)" : ""),
+		std::min (isTired() ? _impl->_speed : _impl->_runningSpeed, distance (target)),
 		angle (target)));
 }  
 
@@ -346,7 +343,7 @@ double Blob::inflictDamageWeight (const Blob& b) const
 
 double Blob::hungerWeight (const Blob& b) const
 {
-	return std::min (1.0, ((double) b.size ()) / 2000.0) * (1.0 - _impl->propertyScalingFactorDueToHunger ());
+	return std::min (1.0, ((double) b.size ()) / 2000.0) * (1.0 - _impl->hungerRatio ());
 }
 
 double Blob::avoidDamageWeight (const Blob& b) const
@@ -390,7 +387,7 @@ std::vector<Option> Blob::findOptions (std::vector<Blob>& others) const
 		{
 			if (b.isDead ())
 			{
- 				if (b.size () > 0U && _impl->propertyScalingFactorDueToHunger () < 0.30)
+ 				if (b.size () > 0U && _impl->hungerRatio () < 0.30)
 				{
 					if (isInSameSquare (b))
 					{
@@ -464,10 +461,16 @@ std::shared_ptr <Action> Blob::chooseNextAction (std::vector<Blob>& blobs)
 	}
 }
 
-double Blob::fade () const
+Pt<double> Blob::WORLD_SIZE ()
 {
-	double timeLeft = (((double) lifespan ()) - currentAge ()) / lifespan () * _impl->propertyScalingFactorDueToHunger ();
-	return isDead () ? 0.4 : ((0.6 * timeLeft) + 0.4);
+	static Pt<double> r (1500.0, 750.0);
+	return r;
 }
 
-	
+std::ostream& operator<< (std::ostream& s, const Blob& b)
+{	
+	Pt<double> p = b._impl->position ();
+
+	s << p.x () << "," << p.y ();
+	return s; 
+}

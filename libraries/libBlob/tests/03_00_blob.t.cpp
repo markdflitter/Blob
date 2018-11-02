@@ -28,24 +28,24 @@ TEST (test_03_00_blob_t, smell)
 	EXPECT_DOUBLE_EQ (b.smell (), 150.15);
 }
 
-TEST (test_03_00_blob_t, wanderingSpeed)
+TEST (test_03_00_blob_t, speed)
 {
 	Blob b = CreateBlob ().speed (300.3).HP (100U).lifespan (100U).maxHunger (100U);
-	EXPECT_DOUBLE_EQ (b.maxWanderingSpeed (), 300.3);
-	EXPECT_DOUBLE_EQ (b.currentWanderingSpeed (), 150.15);
+	EXPECT_DOUBLE_EQ (b.speed (), 300.3);
+	EXPECT_DOUBLE_EQ (b.getImpl ()->wanderingSpeed (), 150.15);
 }
 
-TEST (test_03_00_blob_t, runningSpeed)
+TEST (test_03_00_blob_t, running_speed)
 {
 	Blob b = CreateBlob ().runningSpeed (400.4).HP (100U).lifespan (100U).maxHunger (100U);
-	EXPECT_DOUBLE_EQ (b.currentRunningSpeed (), 200.2);
+	EXPECT_DOUBLE_EQ (b.getImpl ()->runningSpeed (), 200.2);
 }
 
 TEST (test_03_00_blob_t, HP)
 {
 	Blob b = CreateBlob ().HP (500U).lifespan (100U).maxHunger (100U);
 	EXPECT_EQ (b.baseHP (), 500U);
-	EXPECT_EQ (b.getImpl ()->maxHP (), 250U);
+	EXPECT_EQ (b.maxHP (), 250U);
 	EXPECT_EQ (b.HP (), 250U);
 }
 
@@ -86,10 +86,10 @@ TEST (test_03_00_blob_t, lifespan)
 	EXPECT_EQ (b.lifespan (), 800U);
 }
 
-TEST (test_03_00_blob_t, currentAge)
+TEST (test_03_00_blob_t, age)
 {
 	Blob b = CreateBlob ();
-	EXPECT_EQ (b.currentAge (), 0U);
+	EXPECT_EQ (b.age (), 0U);
 }
 
 TEST (test_03_00_blob_t, damage)
@@ -121,7 +121,7 @@ TEST (test_03_00_blob_t, fatigue)
 TEST (test_03_00_blob_t, starts_untired)
 {
 	Blob b = CreateBlob ();
-	EXPECT_FALSE (b.getImpl ()->_tired);
+	EXPECT_FALSE (b.isTired ());
 }
 
 TEST (test_03_00_blob_t, starts_dead)

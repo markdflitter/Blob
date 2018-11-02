@@ -1,26 +1,27 @@
 features
 --------
-move these back up to blob
-	isTired ?
-	maxHP, baseHP
-	kill
+make sure everything using the impl really needs to
+so: steps are:
+  3) move private methods out of blob into the pimpl and update the blob and the tests
+    	the tests would probably need to be renamed if they are pimpl tests
 
-Blob nees to have a logically sensible interfacei
-	not everything from the impl shoudl be exposed, if it is a internal
-detail
-	the only functions in impl are the private ones
+high level plan for pimpl
+-------------------------
+blob adds implementation for the public functions which accesses the pimpl data and private methods
+public functions are tested at the blob level
 
-	but the impl will change often, so we don't want to include it everywhere unless what we are testing
-	is an implementation detail, not a public property
+I can either get the pimpl from the blob, or create it directly.
+findOptions (eg) needs to convert the blob to the pimpl
 
-	so, we need to define a minimal, sensible set of public properties, and put the rest in the impl
-	
-	I could split up the impl into sub-impls, which would mean that if I change on sub-impl, the others don't change
-	I should NOT include this in blob, but in the impl.
+testing on a pimpl: I would need to be able to create a pimpl from a createBlob
+and those tests would be done on the pimpl
+
+
+
+
 
 tidy up params in blobUI build script - help doesn't match code
 	need to recopy it, as it's out of date compared to the lib copy
-re-order blob function to match header, also impl
 
 tidy up blob header #includes
 separate includes into public and private?
