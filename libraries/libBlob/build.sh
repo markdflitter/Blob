@@ -66,7 +66,6 @@ fi
 
 pushd ../../../bld/$projectType/$project/$targetFolder
 
-buildStatus=0
 if [ "$testOnly" != "1" ]; then
 	if [ "$debug" = "1" ]; then
 		cmake ../../../../src/$projectType/$project -DCMAKE_BUILD_TYPE=Debug
@@ -79,15 +78,13 @@ if [ "$testOnly" != "1" ]; then
 	fi
 
 	make
-        buildStatus=$?
-	if [ "$buildStatus" -eq 0 ] && [ "$test" = "1" ]; then
+	if [ "$test" = "1" ]; then
 		make run-tests
-		buildStatus=$?
 	fi
 fi
 
 if [ "$test" = "1" ] || [ "$testOnly" = "1" ]; then
-	if [ "$buildStatus" -eq 0 ]; then
+	if [ $? -eq 0 ]; then
   		if [ "$testFilter" != "" ]; then
 			ctest .. -R "$testFilter" 
 		else
