@@ -155,10 +155,9 @@ void Field::drawSmellRange (QPainter& painter,
 	noColour.setAlphaF (0.0);
 	painter.setPen (QPen (noColour));
 
-	if (blob.currentSize () > 0U)
+	if (blob.size () > 0U)
 	{
-		double radius = blob.currentSize () / 60.0;
-		painter.drawEllipse (QPointF (centre.x (), centre.y ()), radius, radius);
+		painter.drawEllipse (QPointF (centre.x (), centre.y ()), (blob.size () / 60.0), (blob.size () / 60.0));
 	}
 	painter.restore ();
 }
@@ -249,7 +248,7 @@ void Field::drawStatsBars (QPainter& painter,
 	drawStatsBar (painter, QPointF (targetPt.x (), targetPt.y () + 3 * (STATS_BAR_HEIGHT + STATS_BAR_SPACE)),
 		blob.currentDamage (), blob.greatestDamage (), fadeAlpha, false, "dmg");
 	drawStatsBar (painter, QPointF (targetPt.x (), targetPt.y () + 4 * (STATS_BAR_HEIGHT + STATS_BAR_SPACE)),
-		blob.endurance () - blob.currentFatigue (), blob.endurance (), fadeAlpha, false, "nrg");
+		blob.endurance () - blob.fatigue (), blob.endurance (), fadeAlpha, false, "nrg");
 
 	painter.restore ();
 }
@@ -339,7 +338,7 @@ double Field::featureFadeAlpha (double current, double min, double max)
 
 QColor Field::blobColour (const Blob& blob)
 {
-	double a = blob.currentAggression () + 1.0;
+	double a = blob.aggression () + 1.0;
 	unsigned int red = (unsigned) limit (a * 255.0, 0.0, 255.0);
 	unsigned int blue = (unsigned) limit (blob.greatestWanderingSpeed () * 100.0, 0.0, 255.0);
 	unsigned int green = 0U;

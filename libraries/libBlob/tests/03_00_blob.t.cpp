@@ -77,7 +77,7 @@ TEST (test_03_00_blob_t, endurance)
 TEST (test_03_00_blob_t, aggression)
 {
 	Blob b = CreateBlob ().HP (100U).aggression (700.7).lifespan (100U).starvationLevel (100U);
-	EXPECT_DOUBLE_EQ (b.currentAggression (), 700.7);
+	EXPECT_DOUBLE_EQ (b.aggression (), 700.7);
 }
 
 TEST (test_03_00_blob_t, lifespan)
@@ -115,7 +115,7 @@ TEST (test_03_00_blob_t, state)
 TEST (test_03_00_blob_t, fatigue)
 {
 	Blob b = CreateBlob ();
-	EXPECT_EQ (b.currentFatigue (), 0U);
+	EXPECT_EQ (b.fatigue (), 0U);
 }
 
 TEST (test_03_00_blob_t, starts_untired)
