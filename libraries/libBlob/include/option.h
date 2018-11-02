@@ -3,12 +3,12 @@
 
 enum action_t {attack, flee, wander, eat};
 
-class BlobImpl;
+class Blob;
 
 class Option 
 {
 public:
-	Option (action_t action, double weight, BlobImpl* target) :
+	Option (action_t action, double weight, Blob* target) :
 		_action (action)
 	      , _weight (weight)
 	      , _target (target)
@@ -17,7 +17,7 @@ public:
 	
 	action_t action () const {return _action;}
 	double weight () const {return _weight;}
-	BlobImpl* target () const {return _target;}
+	Blob* target () const {return _target;}
 
 	bool matches (const Option& other)
 	{
@@ -26,7 +26,7 @@ public:
 private:
 	action_t _action;
 	double _weight;
-	BlobImpl* _target;
+	Blob* _target;
 };
 
 #endif
