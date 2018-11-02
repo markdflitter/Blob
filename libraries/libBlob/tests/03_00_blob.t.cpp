@@ -16,10 +16,8 @@ TEST (test_03_00_blob_t, name)
 TEST (test_03_00_blob_t, position)
 {
 	Blob b = CreateBlob ().position (make_pt (100.1, 200.2));
-	Pt <double> p = b.history ().back ();
-
-	EXPECT_DOUBLE_EQ (p.x (), 100.1);
-	EXPECT_DOUBLE_EQ (p.y (), 200.2);
+	EXPECT_DOUBLE_EQ (b.x (), 100.1);
+	EXPECT_DOUBLE_EQ (b.y (), 200.2);
 }
 
 TEST (test_03_00_blob_t, smell)
@@ -32,13 +30,13 @@ TEST (test_03_00_blob_t, speed)
 {
 	Blob b = CreateBlob ().speed (300.3).HP (100U).lifespan (100U).maxHunger (100U);
 	EXPECT_DOUBLE_EQ (b.baseSpeed (), 300.3);
-	EXPECT_DOUBLE_EQ (b.getImpl ()->speed (), 150.15);
+	EXPECT_DOUBLE_EQ (b.speed (), 150.15);
 }
 
 TEST (test_03_00_blob_t, running_speed)
 {
 	Blob b = CreateBlob ().runningSpeed (400.4).HP (100U).lifespan (100U).maxHunger (100U);
-	EXPECT_DOUBLE_EQ (b.getImpl ()->runningSpeed (), 200.2);
+	EXPECT_DOUBLE_EQ (b.runningSpeed (), 200.2);
 }
 
 TEST (test_03_00_blob_t, HP)

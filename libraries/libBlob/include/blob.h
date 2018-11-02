@@ -1,19 +1,23 @@
 #ifndef INCLUDED_BLOB_H
 #define INCLUDED_BLOB_H
 
-#include "createBlob.h"
-#include "pt.h"
-#include "action.h"
-#include "movement.h"
-#include "fight.h"
-#include "eat.h"
-#include "option.h"
-
 #include <functional>
+#include <algorithm>
 #include <iostream>
+#include <math.h>
 #include <string>
 #include <vector>
+#include <sstream>
 #include <memory>
+#include <pt.h>
+#include <action.h>
+#include <movement.h>
+#include <fight.h>
+#include <eat.h>
+#include <rnd.h>
+#include "option.h"
+#include <assert.h>
+#include "createBlob.h"
 
 class BlobImpl;
 	
@@ -26,8 +30,11 @@ public:
 	std::shared_ptr <BlobImpl> getImpl ();
 	
 	std::string name () const;
+	double x () const; 
+	double y () const;
 	double baseSpeed () const;
-
+	double speed () const;
+	double runningSpeed () const;
 	double smell () const;
 	unsigned int baseHP () const;
 	unsigned int HP () const;

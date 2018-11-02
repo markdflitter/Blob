@@ -12,9 +12,7 @@ TEST (test_09_01_blob_hunt_t, north)
 	EXPECT_EQ (*m, Movement (&hunter, "hunting  (fast)", 4, 0));
 
 	a->apply ();
-
-	Pt <double> p = hunter.history ().back ();
-	EXPECT_DOUBLE_EQ (p.y (), 9.0);
+	EXPECT_DOUBLE_EQ (hunter.y (), 9.0);
 }
 
 TEST (test_09_01_blob_hunt_t, south)
@@ -28,9 +26,7 @@ TEST (test_09_01_blob_hunt_t, south)
 	EXPECT_EQ (*m, Movement (&hunter, "hunting  (fast)", 4, M_PI));
 
 	a->apply ();
-	
-	Pt <double> p = hunter.history ().back ();
-	EXPECT_DOUBLE_EQ (p.y (), 1.0);
+	EXPECT_DOUBLE_EQ (hunter.y (), 1.0);
 }
 
 TEST (test_09_01_blob_hunt_t, east)
@@ -44,9 +40,7 @@ TEST (test_09_01_blob_hunt_t, east)
 	EXPECT_EQ (*m, Movement (&hunter, "hunting  (fast)", 4, M_PI/2));
 
 	a->apply ();
-	
-	Pt <double> p = hunter.history ().back ();
-	EXPECT_DOUBLE_EQ (p.x (), 9.0);
+	EXPECT_DOUBLE_EQ (hunter.x (), 9.0);
 }
 
 TEST (test_09_01_blob_hunt_t, west)
@@ -60,9 +54,7 @@ TEST (test_09_01_blob_hunt_t, west)
 	EXPECT_EQ (*m, Movement (&hunter, "hunting  (fast)", 4, 3 * M_PI / 2));
 
 	a->apply ();
-	
-	Pt <double> p = hunter.history ().back ();
-	EXPECT_DOUBLE_EQ (p.x (), -9.0);
+	EXPECT_DOUBLE_EQ (hunter.x (), -9.0);
 }
 
 TEST (test_09_01_blob_hunt_t, gets_closer)

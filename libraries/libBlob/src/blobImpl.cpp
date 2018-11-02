@@ -25,21 +25,6 @@ BlobImpl::BlobImpl (const CreateBlob& params) :
 	setHP (maxHP ());
 }
 
-double BlobImpl::speed () const
-{
-	return (_baseHP == 0) ? 0U : _speed * (double (_HP)) / _baseHP;
-}
-
-double BlobImpl::runningSpeed () const
-{
-	return (_baseHP == 0) ? 0U : _runningSpeed * (double (_HP)) / _baseHP;
-}
-
-Pt<double> BlobImpl::position () const
-{
-	return _points.back ();
-}
-
 double BlobImpl::ageRatio () const
 {
 	double a = -2.0 / (((double) _lifespan) * _lifespan);
