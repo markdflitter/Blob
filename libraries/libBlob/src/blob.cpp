@@ -124,24 +124,20 @@ double Blob::currentAggression () const
 	return isDead () ? _impl->_aggression : ((2.0 - _impl->propertyScalingFactorDueToHunger ()) * _impl->_aggression);
 }
 
-const std::vector<Pt<double>>& Blob::history () const
-{
-	return _impl->_points;
-}
-
 std::string Blob::state () const
 {
 	return _impl->_state;
 }
 
-bool Blob::isTired () const
-{
-	return _impl->_tired;
-}
-
 bool Blob::isDead () const
 {
 	return _impl->_dead;
+}
+
+
+const std::vector<Pt<double>>& Blob::history () const
+{
+	return _impl->_points;
 }
 
 double Blob::distance (const Blob& other) const
@@ -468,11 +464,6 @@ std::shared_ptr <Action> Blob::chooseNextAction (std::vector<Blob>& blobs)
 				return createActionEat (*(selectedOption.target ()));
 		}
 	}
-}
-
-void Blob::kill ()
-{
-	_impl->kill ();
 }
 
 double Blob::fade () const
