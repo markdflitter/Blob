@@ -355,7 +355,7 @@ QColor Field::blobColour (const Blob& blob)
 	//std::cout << red << ", " << green << ", " << blue << std::endl;
 	QColor result (red, green, blue);
 
-	result.setAlphaF (blob.alpha ());
+	result.setAlphaF (blob.fade ());
 
 	return result;
 }
