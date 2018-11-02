@@ -155,9 +155,9 @@ void FieldThreadWorker::work (SetBlobs* target)
 
 	std::vector<Blob> blobs;
 	createRandomBlobs (blobs, 10);
-	createRandomBlobs (blobs, 90);
-	createSheep (blobs, 50);
-	createHunters (blobs, 50);
+	createRandomBlobs (blobs, 140);
+	createSheep (blobs, 75);
+	createHunters (blobs, 75);
 	blobs.push_back (createTheHandOfGod ());
 
 	unsigned int t = 0;
