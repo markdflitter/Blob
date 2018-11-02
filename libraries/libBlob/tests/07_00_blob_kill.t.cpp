@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 #include <blob.h>
-#include <blobImpl.h>
 
 TEST(test_07_00_blob_kill_t, is_dead_after_being_killed)
 {
@@ -8,7 +7,7 @@ TEST(test_07_00_blob_kill_t, is_dead_after_being_killed)
 			.damage (100U).endurance (100U).lifespan (100U).aggression (1.0).maxHunger (100U);
 	EXPECT_FALSE (b1.isDead ());
 	
-	b1.getImpl()->kill ();
+	b1.kill ();
 
 	EXPECT_TRUE (b1.isDead ());
 	EXPECT_EQ (b1.state (), "dead");
