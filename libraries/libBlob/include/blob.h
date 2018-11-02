@@ -50,8 +50,8 @@ public:
 	
 	double currentSmell () const;
 
-	unsigned int greatestDamage () const;
-	unsigned int currentDamage () const;
+	unsigned int baseDamage () const;
+	unsigned int damage () const;
 	
 	unsigned int endurance () const;
 	double fatigue () const;

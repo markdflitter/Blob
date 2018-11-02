@@ -71,22 +71,22 @@ unsigned int Blob::currentHP () const
 
 double Blob::greatestWanderingSpeed () const
 {
-	return _impl->_wanderingSpeed;
+	return _impl->_greatestWanderingSpeed;
 }
 
 double Blob::greatestRunningSpeed () const
 {
-	return _impl->_runningSpeed;
+	return _impl->_greatestRunningSpeed;
 }
 
 double Blob::currentWanderingSpeed () const
 {
-	return _impl->scalePropertyByHPRatio (_impl->_wanderingSpeed);
+	return _impl->scalePropertyByHPRatio (_impl->_greatestWanderingSpeed);
 }
 
 double Blob::currentRunningSpeed () const
 {
-	return _impl->scalePropertyByHPRatio (_impl->_runningSpeed);
+	return _impl->scalePropertyByHPRatio (_impl->_greatestRunningSpeed);
 }
 	
 double Blob::currentSmell () const
@@ -94,14 +94,15 @@ double Blob::currentSmell () const
 	return _impl->_smell * _impl->propertyScalingFactorDueToAge ();
 }
 
-unsigned int Blob::greatestDamage () const
+unsigned int Blob::baseDamage () const
 {
-	return _impl->_damage;
+	return _impl->_baseDamage;
 }
 
-unsigned int Blob::currentDamage () const
+unsigned int Blob::damage () const
 {
-	return static_cast <unsigned int> (_impl->scalePropertyByHPRatio (_impl->_damage) + 0.5);
+	return (_impl->_greatestMaxHP == 0) ? 0U :
+		 ((unsigned int) ((_impl->_baseDamage * (double (_impl->_currentHP)) / _impl->_greatestMaxHP) + 0.5));
 }
 
 unsigned int Blob::endurance () const
@@ -228,13 +229,13 @@ void Blob::inflictDamage (Target* target, const std::string& state)
 {
 	_impl->_state = state;
 	growOlder ();
-	target->takeDamage (currentDamage ());
-	getHungrier (currentDamage ());
+	target->takeDamage (damage ());
+	getHungrier (damage ());
 }
 
 void Blob::retaliate (Target* target)
 {
-	target->takeDamage (currentDamage ());
+	target->takeDamage (damage ());
 }
 
 void Blob::move (double speed, double angleInRadians, const std::string& newState) 
@@ -343,7 +344,7 @@ double Blob::relativeDifference (double v1, double v2)
 
 double Blob::inflictDamageWeight (const Blob& b) const
 {
-	return relativeDifference (currentDamage (), b._impl->_currentHP) * 2.0;
+	return relativeDifference (damage (), b._impl->_currentHP) * 2.0;
 }
 
 double Blob::hungerWeight (const Blob& b) const
@@ -353,7 +354,7 @@ double Blob::hungerWeight (const Blob& b) const
 
 double Blob::avoidDamageWeight (const Blob& b) const
 {
-	return relativeDifference (b.currentDamage () + 1, _impl->_currentHP) * 2.0;
+	return relativeDifference (b.damage () + 1, _impl->_currentHP) * 2.0;
 }
 
 double Blob::distanceWeight (const Blob& b) const

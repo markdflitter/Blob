@@ -246,32 +246,32 @@ TEST (test_08_00_blob_age_t, blobs_change_smell_with_age)
 TEST (test_08_00_blob_age_t, damage_reduces_with_less_HP)
 {
 	Blob b1 = CreateBlob ().lifespan (5U).starvationLevel (100U).damage (100.0).HP (100U);
-	EXPECT_EQ (b1.greatestDamage (), 100U);
-	EXPECT_EQ (b1.currentDamage (), 50U);
+	EXPECT_EQ (b1.baseDamage (), 100U);
+	EXPECT_EQ (b1.damage (), 50U);
 
 	b1.getImpl ()->setHP (40U);
-	EXPECT_EQ (b1.greatestDamage (), 100U);
-	EXPECT_EQ (b1.currentDamage (), 40U);
+	EXPECT_EQ (b1.baseDamage (), 100U);
+	EXPECT_EQ (b1.damage (), 40U);
 }
 
 TEST (test_08_00_blob_age_t, blobs_change_damage_with_age)
 {
 	Blob b1 = CreateBlob ().damage (100U).HP (100U).lifespan (10U).starvationLevel (100U);
-	EXPECT_DOUBLE_EQ (b1.currentDamage (), 50U);
+	EXPECT_DOUBLE_EQ (b1.damage (), 50U);
 
-	unsigned int previous = b1.currentDamage ();
+	unsigned int previous = b1.damage ();
 	for (size_t i = 0; i < 10; i++)
 	{
 		b1.growOlder ();
 		if (i < 5)
 		{
-			EXPECT_GT (b1.currentDamage (), previous);
+			EXPECT_GT (b1.damage (), previous);
 		}
 		else
 		{
-			EXPECT_LT (b1.currentDamage (), previous);
+			EXPECT_LT (b1.damage (), previous);
 		}
-		previous = b1.currentDamage ();
+		previous = b1.damage ();
 	}
 }
 
