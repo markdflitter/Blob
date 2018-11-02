@@ -43,8 +43,8 @@ public:
 	unsigned int currentMaxHP () const;
 	unsigned int currentHP () const;
 	
-	double greatestWanderingSpeed () const;
-	double greatestRunningSpeed () const;
+
+	double maxWanderingSpeed () const;
 	double currentWanderingSpeed () const;
 	double currentRunningSpeed () const;
 	

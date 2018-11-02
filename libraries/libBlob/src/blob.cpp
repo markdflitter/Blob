@@ -69,24 +69,19 @@ unsigned int Blob::currentHP () const
 	return _impl->_currentHP;
 }
 
-double Blob::greatestWanderingSpeed () const
+double Blob::maxWanderingSpeed () const
 {
-	return _impl->_greatestWanderingSpeed;
-}
-
-double Blob::greatestRunningSpeed () const
-{
-	return _impl->_greatestRunningSpeed;
+	return _impl->_wanderingSpeed;
 }
 
 double Blob::currentWanderingSpeed () const
 {
-	return (_impl->_greatestMaxHP == 0U) ? 0U : _impl->_greatestWanderingSpeed * (double (_impl->_currentHP)) / _impl->_greatestMaxHP;
+	return (_impl->_greatestMaxHP == 0U) ? 0U : _impl->_wanderingSpeed * (double (_impl->_currentHP)) / _impl->_greatestMaxHP;
 }
 
 double Blob::currentRunningSpeed () const
 {
-	return (_impl->_greatestMaxHP == 0U) ? 0U : _impl->_greatestRunningSpeed * (double (_impl->_currentHP)) / _impl->_greatestMaxHP;
+	return (_impl->_greatestMaxHP == 0U) ? 0U : _impl->_runningSpeed * (double (_impl->_currentHP)) / _impl->_greatestMaxHP;
 }
 	
 double Blob::smell () const
@@ -143,8 +138,8 @@ const std::vector<Pt<double>>& Blob::history () const
 
 double Blob::distance (const Blob& other) const
 {
-	Pt<double> p1 = other.history ().back ();
-	Pt<double> p2 = history ().back ();
+	Pt<double> p1 = other._impl->_points.back ();
+	Pt<double> p2 = _impl->_points.back ();
 
 	double dx = p1.x () - p2.x ();
 	double dy = p1.y () - p2.y ();
@@ -170,8 +165,8 @@ bool Blob::canSmell (const Blob& other) const
 
 double Blob::angle (const Blob& other) const
 {
-	Pt<double> p1 = history ().back ();
-	Pt<double> p2 = other.history ().back ();
+	Pt<double> p1 = _impl->_points.back ();
+	Pt<double> p2 = other._impl->_points.back ();
 
 	double dx = p1.x () - p2.x ();
 	double dy = p1.y () - p2.y ();
@@ -244,7 +239,7 @@ void Blob::move (double speed, double angleInRadians, const std::string& newStat
 	
 	_impl->_previousAngleInRadians = angleInRadians;
 
-	Pt<double> p = history ().back ();
+	Pt<double> p = _impl->_points.back ();
 
 	double denormalisedMoveDirection = _impl->_previousAngleInRadians - M_PI / 2;
 	double newX = p.x () + speed * cos (denormalisedMoveDirection);
@@ -259,7 +254,7 @@ void Blob::move (double speed, double angleInRadians, const std::string& newStat
 
 	_impl->_state = newState;
 
-	if (speed > currentWanderingSpeed ())
+	if (speed > _impl->_wanderingSpeed)
 	{
 		if (_impl->_fatigue < _impl->_endurance) _impl->_fatigue++;
 	}
@@ -294,14 +289,14 @@ std::shared_ptr <Action> Blob::createActionDead ()
 std::shared_ptr <Action> Blob::createActionWander ()
 {
 	double angle = _impl->_moveDirectionFn (_impl->_previousAngleInRadians);
-	return std::shared_ptr<Action> (new Movement (this, "wandering", currentWanderingSpeed (), angle));
+	return std::shared_ptr<Action> (new Movement (this, "wandering", _impl->_wanderingSpeed, angle));
 }
         
 std::shared_ptr <Action> Blob::createActionFlee (const Blob& target)
 {
 	return std::shared_ptr <Action> (new Movement (this,
 			 "running from " + target.name () + (!_impl->_tired ? " (fast)" : ""),
-			_impl->_tired ? currentWanderingSpeed () : currentRunningSpeed (),
+			_impl->_tired ? _impl->_wanderingSpeed : _impl->_runningSpeed,
 			_impl->_moveDirectionFn ((0.9 * _impl->_previousAngleInRadians + 0.1 * (angle (target) + M_PI)))));
 }
        
@@ -309,7 +304,7 @@ std::shared_ptr <Action> Blob::createActionHunt (const Blob& target)
 {
 	return std::shared_ptr <Action> (new Movement (this,
 		 "hunting " + target.name () + (!_impl->_tired ? " (fast)" : ""),
-		std::min (_impl->_tired ? currentWanderingSpeed () : currentRunningSpeed (), distance (target)),
+		std::min (_impl->_tired ? _impl->_wanderingSpeed : _impl->_runningSpeed, distance (target)),
 		angle (target)));
 }  
 

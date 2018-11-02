@@ -1,10 +1,22 @@
 features
 --------
-add a scale property by HP function to blobImpl
 move these back up to blob
 	isTired ?
+	maxHP, baseHP
 	kill
-and then remove all uses of impl in tests
+
+Blob nees to have a logically sensible interfacei
+	not everything from the impl shoudl be exposed, if it is a internal
+detail
+	the only functions in impl are the private ones
+
+	but the impl will change often, so we don't want to include it everywhere unless what we are testing
+	is an implementation detail, not a public property
+
+	so, we need to define a minimal, sensible set of public properties, and put the rest in the impl
+	
+	I could split up the impl into sub-impls, which would mean that if I change on sub-impl, the others don't change
+	I should NOT include this in blob, but in the impl.
 
 tidy up params in blobUI build script - help doesn't match code
 	need to recopy it, as it's out of date compared to the lib copy

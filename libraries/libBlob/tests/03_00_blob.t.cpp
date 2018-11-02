@@ -31,7 +31,7 @@ TEST (test_03_00_blob_t, smell)
 TEST (test_03_00_blob_t, wanderingSpeed)
 {
 	Blob b = CreateBlob ().speed (300.3).HP (100U).lifespan (100U).starvationLevel (100U);
-	EXPECT_DOUBLE_EQ (b.greatestWanderingSpeed (), 300.3);
+	EXPECT_DOUBLE_EQ (b.maxWanderingSpeed (), 300.3);
 	EXPECT_DOUBLE_EQ (b.currentWanderingSpeed (), 150.15);
 }
 

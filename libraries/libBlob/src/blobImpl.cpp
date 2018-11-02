@@ -4,8 +4,8 @@ BlobImpl::BlobImpl (const CreateBlob& params) :
 	  _name (params._name)
 	, _lifespan (params._lifespan)
 	, _starvationLevel (params._starvationLevel)
-	, _greatestWanderingSpeed (params._speed)
-	, _greatestRunningSpeed (params._runningSpeed)
+	, _wanderingSpeed (params._speed)
+	, _runningSpeed (params._runningSpeed)
 	, _baseSmell (params._smell)
 	, _greatestMaxHP (params._HP)
 	, _endurance (params._endurance)
@@ -58,8 +58,8 @@ void BlobImpl::kill ()
 {
 	_dead = true;
 	_state = "dead";
-	_greatestWanderingSpeed = 0.0;
-	_greatestRunningSpeed = 0.0;
+	_wanderingSpeed = 0.0;
+	_runningSpeed = 0.0;
 	_baseSmell = 0.0;
 	_greatestMaxHP = 0U;
 	_currentHP = 0U;

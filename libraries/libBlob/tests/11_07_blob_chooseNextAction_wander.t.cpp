@@ -12,7 +12,7 @@ namespace
 
 TEST (test_11_07_blob_chooseNextAction_wander_t, chooses_to_wander_in_a_circle)
 {
-	Blob b = CreateBlob ().position (make_pt (10.1, 20.2)).speed (10.0).moveDirectionFn (fixed_angle).HP (100U).starvationLevel (1000U).lifespan (1000U);
+	Blob b = CreateBlob ().position (make_pt (10.1, 20.2)).speed (5.0).moveDirectionFn (fixed_angle).HP (100U).starvationLevel (100U).lifespan (10U);
 	std::vector<Blob> blobs;
 	
 	std::shared_ptr<Action> m = b.chooseNextAction (blobs);
@@ -74,7 +74,7 @@ TEST (test_11_07_blob_chooseNextAction_wander_t, chooses_to_wander_randomly)
 		return previousMoveDirection + (2.0 * M_PI * dist (gen) / 360.0);
 	};
 
-	Blob b = CreateBlob ().position (make_pt (10.1, 20.2)).speed (10.0).moveDirectionFn (rnd_angle).HP (100U).starvationLevel (1000U).lifespan (1000U);
+	Blob b = CreateBlob ().position (make_pt (10.1, 20.2)).speed (5.0).moveDirectionFn (rnd_angle).HP (100U).starvationLevel (100U).lifespan (10U);
 	Pt <double> p1 = b.history ().back ();
 	EXPECT_DOUBLE_EQ (p1.x (), 10.1);
 	EXPECT_DOUBLE_EQ (p1.y (), 20.2);
@@ -96,7 +96,7 @@ TEST (test_11_07_blob_chooseNextAction_wander_t, wanders_randomly)
 		return previousMoveDirection + (2.0 * M_PI * dist (gen) / 360.0);
 	};
 
-	Blob b = CreateBlob ().position (make_pt (10.1, 20.2)).speed (10.0).moveDirectionFn (rnd_angle).HP (100U).starvationLevel (1000U).lifespan (1000U);
+	Blob b = CreateBlob ().position (make_pt (10.1, 20.2)).speed (5.0).moveDirectionFn (rnd_angle).HP (100U).starvationLevel (100U).lifespan (10U);
 	Pt <double> p1 = b.history ().back ();
 	EXPECT_DOUBLE_EQ (p1.x (), 10.1);
 	EXPECT_DOUBLE_EQ (p1.y (), 20.2);

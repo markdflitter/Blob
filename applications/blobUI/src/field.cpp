@@ -339,7 +339,7 @@ QColor Field::blobColour (const Blob& blob)
 {
 	double a = blob.aggression () + 1.0;
 	unsigned int red = (unsigned) limit (a * 255.0, 0.0, 255.0);
-	unsigned int blue = (unsigned) limit (blob.greatestWanderingSpeed () * 100.0, 0.0, 255.0);
+	unsigned int blue = (unsigned) limit (blob.maxWanderingSpeed () * 100.0, 0.0, 255.0);
 	unsigned int green = 0U;
 	
 	if ((red < 128U) && (blue < 128U))
